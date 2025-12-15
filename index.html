@@ -140,6 +140,25 @@
       fill: #f8fafc;
     }
 
+    .multiverse-footer {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.4px;
+      background: linear-gradient(135deg, #f8e9b0 0%, #e7c874 35%, #cfa14a 65%, #a6731f 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        0 6px 18px rgba(0, 0, 0, 0.3);
+    }
+
     @media (max-width: 640px) {
       .social-fab {
         right: 14px;
@@ -196,6 +215,8 @@
       ☰
     </button>
   </div>
+
+  <div class="multiverse-footer">Primera versión de mi multiverso</div>
 
   <script>
     const socialToggle = document.getElementById('socialToggle');
