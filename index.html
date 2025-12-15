@@ -276,6 +276,7 @@
     href="https://vitalhealthglobal.com/collections/all?refID=145748"
     target="_blank"
     rel="noopener noreferrer"
+    id="btn-compra"
   >
     <span class="buy-now-title">COMPRA YA</span>
     <span class="buy-now-sub">VitalHealth Store</span>
@@ -285,12 +286,12 @@
     <p>Tu nueva era digital comienza aquí.</p>
 
     <div>
-      <a class="cta-button" href="https://wa.me/19565505115">🚀 Comenzar ahora</a>
+      <a class="cta-button" href="https://wa.me/19565505115" id="btn-whatsapp-es">🚀 Comenzar ahora</a>
       <div class="cta-note">Asistencia en Español</div>
     </div>
 
     <div>
-      <a class="cta-button" href="https://wa.me/19564421379">🚀 Comenzar ahora</a>
+      <a class="cta-button" href="https://wa.me/19564421379" id="btn-whatsapp-en">🚀 Comenzar ahora</a>
       <div class="cta-note">English Support</div>
     </div>
   </div>
@@ -343,10 +344,92 @@
   <script>
     const socialToggle = document.getElementById('socialToggle');
     const socialPanel = document.getElementById('socialPanel');
+    const compraBtn = document.getElementById('btn-compra');
+    const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
+    const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
 
     socialToggle.addEventListener('click', () => {
       const isOpen = socialPanel.classList.toggle('open');
       socialToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    const UTM_KEYS = [
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_content',
+      'utm_term'
+    ];
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const utmData = {};
+
+    UTM_KEYS.forEach((key) => {
+      const valueFromUrl = searchParams.get(key);
+      if (valueFromUrl) {
+        sessionStorage.setItem(key, valueFromUrl);
+        utmData[key] = valueFromUrl;
+      } else {
+        const stored = sessionStorage.getItem(key);
+        if (stored) {
+          utmData[key] = stored;
+        }
+      }
+    });
+
+    const hasTrackingDetails = Boolean(
+      utmData.utm_source || utmData.utm_campaign || utmData.utm_content
+    );
+
+    const buildEventParams = (extra = {}) => {
+      const params = { ...extra };
+
+      if (utmData.utm_source) params.utm_source = utmData.utm_source;
+      if (utmData.utm_campaign) params.utm_campaign = utmData.utm_campaign;
+      if (utmData.utm_content) params.utm_content = utmData.utm_content;
+
+      return params;
+    };
+
+    const sendGAEventSafely = (eventName, eventParams) => {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, eventParams);
+      }
+    };
+
+    const buildWhatsAppMessage = () => {
+      if (!hasTrackingDetails) {
+        return 'Hola, vengo de INFINEUM. Quiero información.';
+      }
+
+      const source = utmData.utm_source || 'N/A';
+      const campaign = utmData.utm_campaign || 'N/A';
+      const content = utmData.utm_content || 'N/A';
+
+      return `Hola, vengo de INFINEUM. Origen: ${source}. Campaña: ${campaign}. Contenido: ${content}.`;
+    };
+
+    const updateWhatsAppHref = (element, baseUrl) => {
+      if (!element) return;
+
+      const url = new URL(baseUrl);
+      url.searchParams.set('text', buildWhatsAppMessage());
+      element.href = url.toString();
+    };
+
+    updateWhatsAppHref(whatsappEsBtn, 'https://wa.me/19565505115');
+    updateWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379');
+
+    compraBtn?.addEventListener('click', () => {
+      sendGAEventSafely('cta_compra_click', buildEventParams());
+    });
+
+    whatsappEsBtn?.addEventListener('click', () => {
+      sendGAEventSafely('cta_whatsapp_click', buildEventParams({ lang: 'es' }));
+    });
+
+    whatsappEnBtn?.addEventListener('click', () => {
+      sendGAEventSafely('cta_whatsapp_click', buildEventParams({ lang: 'en' }));
     });
   </script>
 </body>
