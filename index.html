@@ -23,6 +23,49 @@
       text-align: center;
       padding: 32px 20px 96px;
       box-sizing: border-box;
+
+    }
+
+    .buy-now-badge {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 30;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #050505;
+      border: 1px solid rgba(34, 197, 214, 0.8);
+      box-shadow:
+        0 0 12px rgba(34, 197, 214, 0.45),
+        0 0 22px rgba(34, 197, 214, 0.25);
+      text-decoration: none;
+      transform: translateZ(0);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .buy-now-title {
+      font-size: 0.95rem;
+      letter-spacing: 1.6px;
+      font-weight: 700;
+      color: #e5f8ff;
+    }
+
+    .buy-now-sub {
+      font-size: 0.72rem;
+      color: rgba(197, 240, 255, 0.85);
+    }
+
+    .buy-now-badge:hover {
+      transform: scale(1.06);
+      box-shadow:
+        0 0 14px rgba(34, 197, 214, 0.55),
+        0 0 28px rgba(34, 197, 214, 0.35);
+      border-color: rgba(34, 197, 214, 0.95);
+
     }
 
     h1 {
@@ -198,10 +241,37 @@
       }
       h1 { font-size: 2.2rem; }
     }
+
+    @media (max-width: 480px) {
+      .buy-now-badge {
+        top: 12px;
+        right: 12px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        gap: 2px;
+      }
+
+      .buy-now-title {
+        font-size: 0.86rem;
+      }
+
+      .buy-now-sub {
+        font-size: 0.65rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <a
+    class="buy-now-badge"
+    href="https://vitalhealthglobal.com/collections/all?refID=145748"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="buy-now-title">COMPRA YA</span>
+    <span class="buy-now-sub">VitalHealth Store</span>
+  </a>
   <div class="content">
     <h1>INFINEUM SERVICES</h1>
     <p>Tu nueva era digital comienza aquí.</p>
