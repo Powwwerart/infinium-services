@@ -9,6 +9,19 @@
 
   gtag('config', 'G-883WEW264T');
 </script>
+  (function () {
+    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    const sp = new URLSearchParams(window.location.search);
+
+    keys.forEach((k) => {
+      const v = sp.get(k);
+      if (v) sessionStorage.setItem(k, v);
+    });
+
+    console.log('[UTM CHECK]', Object.fromEntries(keys.map(k => [k, sessionStorage.getItem(k)])));
+  })();
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INFINIUM • Servicios Digitales</title>
