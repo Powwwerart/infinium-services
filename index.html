@@ -336,6 +336,20 @@
       letter-spacing: 0.4px;
     }
 
+    .chat-status {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .chat-status.ok {
+      color: #22c55e;
+    }
+
+    .chat-status.error {
+      color: #f87171;
+    }
+
     .chat-close {
       border: none;
       background: transparent;
@@ -486,6 +500,7 @@
         <span id="chatTitle">Asistente INFINIUM</span>
         <button class="chat-close" type="button" id="chatClose" aria-label="Cerrar chat">✕</button>
       </div>
+      <div class="chat-status" id="chatStatus">Backend no conectado</div>
       <div class="chat-messages" id="chatMessages"></div>
       <form class="chat-form" id="chatForm">
         <input class="chat-input" id="chatInput" type="text" name="message" placeholder="Escribe tu mensaje" autocomplete="off" required />
@@ -499,7 +514,8 @@
 
   <script>
     // ---- Configuración base ----
-    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || '';
+    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || 'https://infinium-chat-api.vercel.app';
+    const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
     const pagePath = `${window.location.pathname}${window.location.search}`;
 
     // ---- Referencias DOM ----
@@ -514,6 +530,7 @@
     const chatForm = document.getElementById('chatForm');
     const chatInput = document.getElementById('chatInput');
     const chatClose = document.getElementById('chatClose');
+    const chatStatus = document.getElementById('chatStatus');
 
     // ---- UTM tracking ----
     const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
@@ -570,8 +587,6 @@
         extra
       };
 
-      if (!BACKEND_BASE_URL) return;
-
       fetch(`${BACKEND_BASE_URL}/api/event`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -584,6 +599,43 @@
     const trackEvent = (eventName, extra = {}) => {
       sendGAEventSafely(eventName, extra);
       postEvent(eventName, extra);
+    };
+
+    // ---- Session ----
+    const getSessionId = () => {
+      const key = 'infinium-chat-session-id';
+      const existing = sessionStorage.getItem(key);
+      if (existing) return existing;
+      const generated = (typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `inf-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      sessionStorage.setItem(key, generated);
+      return generated;
+    };
+
+    const sessionId = getSessionId();
+
+    // ---- Backend health ----
+    const setBackendStatus = (isOk) => {
+      if (!chatStatus) return;
+      chatStatus.textContent = isOk ? 'Conectado' : 'Backend no conectado';
+      chatStatus.classList.toggle('ok', Boolean(isOk));
+      chatStatus.classList.toggle('error', !isOk);
+    };
+
+    const checkBackend = async () => {
+      try {
+        const response = await fetch(`${BACKEND_BASE_URL}/api/ping`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const isOk = Boolean(data?.ok);
+        setBackendStatus(isOk);
+        return isOk;
+      } catch (error) {
+        console.error('[CHAT] Error al verificar backend', error);
+        setBackendStatus(false);
+        return false;
+      }
     };
 
     // ---- WhatsApp ----
@@ -617,7 +669,7 @@
     });
 
     compraBtn?.addEventListener('click', () => {
-      trackEvent('cta_compra_click');
+      trackEvent('buy_click', { utmData });
     });
 
     [whatsappEsBtn, whatsappEnBtn].forEach((btn) => {
@@ -646,6 +698,7 @@
 
       if (open) {
         trackEvent('chat_open');
+        checkBackend();
       }
     };
 
@@ -661,35 +714,33 @@
       chatInput.value = '';
       trackEvent('chat_message_sent', { messageLength: message.length });
 
-      if (!BACKEND_BASE_URL) {
-        appendMessage('Backend no conectado', 'bot');
-        return;
-      }
-
       try {
-        const response = await fetch(`${BACKEND_BASE_URL}/api/chat`, {
+        const response = await fetch(CHAT_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message,
+            sessionId,
             meta: { utmData, page: pagePath }
           })
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+          const errorText = await response.text();
+          throw new Error(`HTTP ${response.status}: ${errorText || 'Respuesta inválida'}`);
         }
 
         const data = await response.json();
         appendMessage(data.reply || 'Recibido, gracias.', 'bot');
       } catch (error) {
-        console.warn('[CHAT] Error al enviar mensaje', error);
-        appendMessage('No se pudo conectar, intenta más tarde.', 'bot');
+        console.error('[CHAT] Error al enviar mensaje', error);
+        appendMessage('Tuvimos un problema al conectar con el asistente. Intenta nuevamente en unos minutos.', 'bot');
       }
     });
 
     // Mensaje inicial de resiliencia
     appendMessage('Hola, soy el asistente INFINEUM. ¿Cómo puedo ayudarte hoy?');
+    checkBackend();
   </script>
 </body>
 </html>
