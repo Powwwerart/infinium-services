@@ -618,9 +618,11 @@
     // ---- Backend health ----
     const setBackendStatus = (isOk) => {
       if (!chatStatus) return;
-      chatStatus.textContent = isOk ? 'Conectado' : 'Backend no conectado';
-      chatStatus.classList.toggle('ok', Boolean(isOk));
-      chatStatus.classList.toggle('error', !isOk);
+      const healthy = Boolean(isOk);
+      window.__backendOk = healthy;
+      chatStatus.textContent = healthy ? 'Conectado ✅' : 'Backend no conectado';
+      chatStatus.classList.toggle('ok', healthy);
+      chatStatus.classList.toggle('error', !healthy);
     };
 
     const checkBackend = async () => {
@@ -628,11 +630,12 @@
         const response = await fetch(`${BACKEND_BASE_URL}/api/ping`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        const isOk = Boolean(data?.ok);
+        const isOk = data?.ok === true;
         setBackendStatus(isOk);
+        console.log(isOk ? '[CHAT] ping ok' : '[CHAT] ping fail');
         return isOk;
       } catch (error) {
-        console.error('[CHAT] Error al verificar backend', error);
+        console.error('[CHAT] ping fail', error);
         setBackendStatus(false);
         return false;
       }
@@ -731,9 +734,12 @@
         }
 
         const data = await response.json();
+        console.log('[CHAT] chat ok');
+        setBackendStatus(true);
         appendMessage(data.reply || 'Recibido, gracias.', 'bot');
       } catch (error) {
-        console.error('[CHAT] Error al enviar mensaje', error);
+        console.error('[CHAT] chat fail', error);
+        setBackendStatus(false);
         appendMessage('Tuvimos un problema al conectar con el asistente. Intenta nuevamente en unos minutos.', 'bot');
       }
     });
