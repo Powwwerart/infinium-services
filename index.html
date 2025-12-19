@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-883WEW264T');
-</script>
-  (function () {
-    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-    const sp = new URLSearchParams(window.location.search);
-
-    keys.forEach((k) => {
-      const v = sp.get(k);
-      if (v) sessionStorage.setItem(k, v);
-    });
-
-    console.log('[UTM CHECK]', Object.fromEntries(keys.map(k => [k, sessionStorage.getItem(k)])));
-  })();
-</script>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-883WEW264T');
+  </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="icon"
+    href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%2300e6c7"/><text x="50" y="58" font-size="44" text-anchor="middle" fill="%230b0b0f" font-family="Arial, sans-serif">I</text></svg>'
+  />
   <title>INFINIUM • Servicios Digitales</title>
   <style>
     body {
@@ -280,6 +272,142 @@
         font-size: 0.65rem;
       }
     }
+
+    /* Chat assistant */
+    .chat-widget {
+      position: fixed;
+      left: 18px;
+      bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .chat-toggle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(6px);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      font-size: 20px;
+    }
+
+    .chat-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .chat-modal {
+      width: min(360px, 90vw);
+      max-height: 70vh;
+      display: none;
+      flex-direction: column;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .chat-modal.open {
+      display: flex;
+    }
+
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(0, 230, 199, 0.22), rgba(34, 197, 94, 0.14));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e5f8ff;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .chat-close {
+      border: none;
+      background: transparent;
+      color: #e5f8ff;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .chat-messages {
+      padding: 12px 12px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      max-height: 320px;
+    }
+
+    .chat-message {
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      background: rgba(34, 197, 214, 0.16);
+      border: 1px solid rgba(34, 197, 214, 0.25);
+      color: #e5f8ff;
+    }
+
+    .chat-message.bot {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+    }
+
+    .chat-form {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: #e5f8ff;
+    }
+
+    .chat-send {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      background: #22c55e;
+      color: #0f172a;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .chat-send:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 
@@ -352,99 +480,216 @@
     </button>
   </div>
 
+  <div class="chat-widget" aria-live="polite">
+    <div class="chat-modal" id="chatModal" role="dialog" aria-labelledby="chatTitle" aria-modal="true">
+      <div class="chat-header">
+        <span id="chatTitle">Asistente INFINIUM</span>
+        <button class="chat-close" type="button" id="chatClose" aria-label="Cerrar chat">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <form class="chat-form" id="chatForm">
+        <input class="chat-input" id="chatInput" type="text" name="message" placeholder="Escribe tu mensaje" autocomplete="off" required />
+        <button class="chat-send" type="submit">Enviar</button>
+      </form>
+    </div>
+    <button class="chat-toggle" id="chatToggle" aria-expanded="false" aria-controls="chatModal" aria-label="Abrir chat">🤖</button>
+  </div>
+
   <div class="multiverse-footer">Primera versión de mi multiverso</div>
 
   <script>
+    // ---- Configuración base ----
+    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || '';
+    const pagePath = `${window.location.pathname}${window.location.search}`;
+
+    // ---- Referencias DOM ----
     const socialToggle = document.getElementById('socialToggle');
     const socialPanel = document.getElementById('socialPanel');
     const compraBtn = document.getElementById('btn-compra');
     const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
     const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
+    const chatToggle = document.getElementById('chatToggle');
+    const chatModal = document.getElementById('chatModal');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatClose = document.getElementById('chatClose');
 
-    socialToggle.addEventListener('click', () => {
-      const isOpen = socialPanel.classList.toggle('open');
-      socialToggle.setAttribute('aria-expanded', String(isOpen));
-    });
+    // ---- UTM tracking ----
+    const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
-    const UTM_KEYS = [
-      'utm_source',
-      'utm_medium',
-      'utm_campaign',
-      'utm_content',
-      'utm_term'
-    ];
-
-    const searchParams = new URLSearchParams(window.location.search);
-    const utmData = {};
-
-    UTM_KEYS.forEach((key) => {
-      const valueFromUrl = searchParams.get(key);
-      if (valueFromUrl) {
-        sessionStorage.setItem(key, valueFromUrl);
-        utmData[key] = valueFromUrl;
-      } else {
-        const stored = sessionStorage.getItem(key);
-        if (stored) {
-          utmData[key] = stored;
+    const persistUtmFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      UTM_KEYS.forEach((key) => {
+        const value = params.get(key);
+        if (value) {
+          sessionStorage.setItem(key, value);
         }
-      }
-    });
+      });
+    };
+
+    const readUtmFromSession = () => {
+      const data = {};
+      UTM_KEYS.forEach((key) => {
+        const stored = sessionStorage.getItem(key);
+        if (stored) data[key] = stored;
+      });
+      return data;
+    };
+
+    persistUtmFromUrl();
+    const utmData = readUtmFromSession();
+    console.log('[UTM CHECK]', utmData);
 
     const hasTrackingDetails = Boolean(
       utmData.utm_source || utmData.utm_campaign || utmData.utm_content
     );
 
-    const buildEventParams = (extra = {}) => {
-      const params = { ...extra };
-
-      if (utmData.utm_source) params.utm_source = utmData.utm_source;
-      if (utmData.utm_campaign) params.utm_campaign = utmData.utm_campaign;
-      if (utmData.utm_content) params.utm_content = utmData.utm_content;
-
-      return params;
-    };
-
-    const sendGAEventSafely = (eventName, eventParams) => {
+    // ---- GA4 helpers ----
+    const sendGAEventSafely = (eventName, eventParams = {}) => {
       if (typeof gtag === 'function') {
-        gtag('event', eventName, eventParams);
+        const gaParams = {
+          ...eventParams,
+          ...(utmData.utm_source ? { utm_source: utmData.utm_source } : {}),
+          ...(utmData.utm_campaign ? { utm_campaign: utmData.utm_campaign } : {}),
+          ...(utmData.utm_content ? { utm_content: utmData.utm_content } : {}),
+          page: pagePath
+        };
+        gtag('event', eventName, gaParams);
       }
     };
 
+    // ---- Event pipeline ----
+    const postEvent = (eventName, extra = {}) => {
+      const payload = {
+        event: eventName,
+        ts: Date.now(),
+        page: pagePath,
+        utmData,
+        userAgent: navigator.userAgent,
+        extra
+      };
+
+      if (!BACKEND_BASE_URL) return;
+
+      fetch(`${BACKEND_BASE_URL}/api/event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch((error) => {
+        console.warn('[EVENT PIPELINE] Error al enviar evento', error);
+      });
+    };
+
+    const trackEvent = (eventName, extra = {}) => {
+      sendGAEventSafely(eventName, extra);
+      postEvent(eventName, extra);
+    };
+
+    // ---- WhatsApp ----
     const buildWhatsAppMessage = () => {
-      if (!hasTrackingDetails) {
-        return 'Hola, vengo de INFINEUM. Quiero información.';
-      }
+      const baseText = 'Hola, vengo de INFINEUM. Quiero información.';
 
-      const source = utmData.utm_source || 'N/A';
-      const campaign = utmData.utm_campaign || 'N/A';
-      const content = utmData.utm_content || 'N/A';
+      if (!hasTrackingDetails) return baseText;
 
-      return `Hola, vengo de INFINEUM. Origen: ${source}. Campaña: ${campaign}. Contenido: ${content}.`;
+      const source = utmData.utm_source || 'direct';
+      const campaign = utmData.utm_campaign || 'generic';
+      const content = utmData.utm_content || 'default';
+
+      return `${baseText} Origen: ${source}. Campaña: ${campaign}. Contenido: ${content}.`;
     };
 
-    const updateWhatsAppHref = (element, baseUrl) => {
+    const updateWhatsAppHref = (element, baseUrl, lang) => {
       if (!element) return;
-
       const url = new URL(baseUrl);
       url.searchParams.set('text', buildWhatsAppMessage());
       element.href = url.toString();
+      element.dataset.lang = lang;
     };
 
-    updateWhatsAppHref(whatsappEsBtn, 'https://wa.me/19565505115');
-    updateWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379');
+    updateWhatsAppHref(whatsappEsBtn, 'https://wa.me/19565505115', 'es');
+    updateWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379', 'en');
+
+    // ---- UI listeners ----
+    socialToggle?.addEventListener('click', () => {
+      const isOpen = socialPanel.classList.toggle('open');
+      socialToggle.setAttribute('aria-expanded', String(isOpen));
+    });
 
     compraBtn?.addEventListener('click', () => {
-      sendGAEventSafely('cta_compra_click', buildEventParams());
+      trackEvent('cta_compra_click');
     });
 
-    whatsappEsBtn?.addEventListener('click', () => {
-      sendGAEventSafely('cta_whatsapp_click', buildEventParams({ lang: 'es' }));
+    [whatsappEsBtn, whatsappEnBtn].forEach((btn) => {
+      btn?.addEventListener('click', () => {
+        const lang = btn.dataset.lang || 'es';
+        trackEvent('cta_whatsapp_click', { lang });
+      });
     });
 
-    whatsappEnBtn?.addEventListener('click', () => {
-      sendGAEventSafely('cta_whatsapp_click', buildEventParams({ lang: 'en' }));
+    // ---- Chat UI ----
+    const appendMessage = (text, type = 'bot') => {
+      const div = document.createElement('div');
+      div.className = `chat-message ${type}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    const toggleChat = (forceOpen) => {
+      const open = typeof forceOpen === 'boolean'
+        ? forceOpen
+        : !chatModal.classList.contains('open');
+
+      chatModal.classList.toggle('open', open);
+      chatToggle.setAttribute('aria-expanded', String(open));
+
+      if (open) {
+        trackEvent('chat_open');
+      }
+    };
+
+    chatToggle?.addEventListener('click', () => toggleChat());
+    chatClose?.addEventListener('click', () => toggleChat(false));
+
+    chatForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      appendMessage(message, 'user');
+      chatInput.value = '';
+      trackEvent('chat_message_sent', { messageLength: message.length });
+
+      if (!BACKEND_BASE_URL) {
+        appendMessage('Backend no conectado', 'bot');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${BACKEND_BASE_URL}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            meta: { utmData, page: pagePath }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        appendMessage(data.reply || 'Recibido, gracias.', 'bot');
+      } catch (error) {
+        console.warn('[CHAT] Error al enviar mensaje', error);
+        appendMessage('No se pudo conectar, intenta más tarde.', 'bot');
+      }
     });
+
+    // Mensaje inicial de resiliencia
+    appendMessage('Hola, soy el asistente INFINEUM. ¿Cómo puedo ayudarte hoy?');
   </script>
 </body>
 </html>
-
