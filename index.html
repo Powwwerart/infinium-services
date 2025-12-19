@@ -499,7 +499,8 @@
 
   <script>
     // ---- Configuración base ----
-    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || '';
+    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || 'https://infinium-chat-api.vercel.app';
+    const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
     const pagePath = `${window.location.pathname}${window.location.search}`;
 
     // ---- Referencias DOM ----
@@ -570,8 +571,6 @@
         extra
       };
 
-      if (!BACKEND_BASE_URL) return;
-
       fetch(`${BACKEND_BASE_URL}/api/event`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -617,7 +616,7 @@
     });
 
     compraBtn?.addEventListener('click', () => {
-      trackEvent('cta_compra_click');
+      trackEvent('buy_click', { utmData });
     });
 
     [whatsappEsBtn, whatsappEnBtn].forEach((btn) => {
@@ -661,13 +660,8 @@
       chatInput.value = '';
       trackEvent('chat_message_sent', { messageLength: message.length });
 
-      if (!BACKEND_BASE_URL) {
-        appendMessage('Backend no conectado', 'bot');
-        return;
-      }
-
       try {
-        const response = await fetch(`${BACKEND_BASE_URL}/api/chat`, {
+        const response = await fetch(CHAT_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -677,14 +671,15 @@
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+          const errorText = await response.text();
+          throw new Error(`HTTP ${response.status}: ${errorText || 'Respuesta inválida'}`);
         }
 
         const data = await response.json();
         appendMessage(data.reply || 'Recibido, gracias.', 'bot');
       } catch (error) {
-        console.warn('[CHAT] Error al enviar mensaje', error);
-        appendMessage('No se pudo conectar, intenta más tarde.', 'bot');
+        console.error('[CHAT] Error al enviar mensaje', error);
+        appendMessage('Tuvimos un problema al conectar con el asistente. Intenta nuevamente en unos minutos.', 'bot');
       }
     });
 
