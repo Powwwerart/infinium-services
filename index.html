@@ -389,6 +389,35 @@
       color: #cbd5e1;
     }
 
+    .chat-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .chat-action-button {
+      border: 1px solid rgba(34, 197, 214, 0.25);
+      background: rgba(34, 197, 214, 0.12);
+      color: #e5f8ff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .chat-action-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      background: rgba(34, 197, 214, 0.18);
+    }
+
+    .chat-action-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .chat-form {
       display: flex;
       gap: 8px;
@@ -514,9 +543,11 @@
 
   <script>
     // ---- Configuración base ----
-    const BACKEND_BASE_URL = window.BACKEND_BASE_URL || 'https://infinium-chat-api.vercel.app';
+    const BACKEND_BASE_URL = window.NEXT_PUBLIC_BACKEND_BASE_URL || window.BACKEND_BASE_URL || 'https://infinium-chat-api.vercel.app';
     const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
+    const EVENT_API_URL = `${BACKEND_BASE_URL}/api/event`;
     const pagePath = `${window.location.pathname}${window.location.search}`;
+    const SESSION_STORAGE_KEY = 'infinium_session_id';
 
     // ---- Referencias DOM ----
     const socialToggle = document.getElementById('socialToggle');
@@ -531,14 +562,15 @@
     const chatInput = document.getElementById('chatInput');
     const chatClose = document.getElementById('chatClose');
     const chatStatus = document.getElementById('chatStatus');
+    const chatSendButton = document.querySelector('.chat-send');
 
     // ---- UTM tracking ----
     const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    const urlParams = new URLSearchParams(window.location.search);
 
     const persistUtmFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
       UTM_KEYS.forEach((key) => {
-        const value = params.get(key);
+        const value = urlParams.get(key);
         if (value) {
           sessionStorage.setItem(key, value);
         }
@@ -577,17 +609,16 @@
     };
 
     // ---- Event pipeline ----
-    const postEvent = (eventName, extra = {}) => {
+    const postEvent = (eventName, data = {}) => {
+      const meta = buildMeta();
       const payload = {
         event: eventName,
-        ts: Date.now(),
-        page: pagePath,
-        utmData,
-        userAgent: navigator.userAgent,
-        extra
+        sessionId,
+        meta,
+        data
       };
 
-      fetch(`${BACKEND_BASE_URL}/api/event`, {
+      fetch(EVENT_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -603,17 +634,26 @@
 
     // ---- Session ----
     const getSessionId = () => {
-      const key = 'infinium-chat-session-id';
-      const existing = sessionStorage.getItem(key);
+      const key = SESSION_STORAGE_KEY;
+      const existing = localStorage.getItem(key);
       if (existing) return existing;
       const generated = (typeof crypto !== 'undefined' && crypto.randomUUID)
         ? crypto.randomUUID()
         : `inf-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      sessionStorage.setItem(key, generated);
+      localStorage.setItem(key, generated);
       return generated;
     };
 
     const sessionId = getSessionId();
+
+    // ---- Meta data ----
+    const buildMeta = () => ({
+      site_id: urlParams.get('s') || '',
+      team_id: urlParams.get('t') || '',
+      campaign_id: urlParams.get('c') || '',
+      page: pagePath,
+      ts: new Date().toISOString()
+    });
 
     // ---- Backend health ----
     const setBackendStatus = (isOk) => {
@@ -666,30 +706,69 @@
     updateWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379', 'en');
 
     // ---- UI listeners ----
+    const sendCtaClick = (ctaType, url) => {
+      trackEvent('cta_click', { cta: ctaType, url });
+    };
+
     socialToggle?.addEventListener('click', () => {
       const isOpen = socialPanel.classList.toggle('open');
       socialToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     compraBtn?.addEventListener('click', () => {
-      trackEvent('buy_click', { utmData });
+      sendCtaClick('buy', compraBtn.href || '');
     });
 
     [whatsappEsBtn, whatsappEnBtn].forEach((btn) => {
       btn?.addEventListener('click', () => {
         const lang = btn.dataset.lang || 'es';
-        trackEvent('cta_whatsapp_click', { lang });
+        sendCtaClick('whatsapp', btn.href || '');
       });
     });
 
     // ---- Chat UI ----
-    const appendMessage = (text, type = 'bot') => {
+
+    const appendMessage = (text, type = 'bot', actions = []) => {
       const div = document.createElement('div');
       div.className = `chat-message ${type}`;
       div.textContent = text;
       chatMessages.appendChild(div);
+
+      if (Array.isArray(actions) && actions.length > 0) {
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'chat-actions';
+
+        actions.forEach((action) => {
+          const actionBtn = document.createElement('button');
+          actionBtn.type = 'button';
+          actionBtn.className = 'chat-action-button';
+          actionBtn.textContent = action.label || 'Acción';
+
+          actionBtn.addEventListener('click', () => {
+            if (action.type === 'open_url' && action.url) {
+              sendCtaClick('buy', action.url);
+              window.open(action.url, '_blank', 'noopener,noreferrer');
+            } else if (action.type === 'whatsapp' && action.phone) {
+              const waUrl = `https://wa.me/${action.phone}?text=${encodeURIComponent(action.text || '')}`;
+              sendCtaClick('whatsapp', waUrl);
+              window.open(waUrl, '_blank', 'noopener,noreferrer');
+            } else if (action.url) {
+              sendCtaClick('join', action.url);
+              window.open(action.url, '_blank', 'noopener,noreferrer');
+            }
+          });
+
+          actionsContainer.appendChild(actionBtn);
+        });
+
+        chatMessages.appendChild(actionsContainer);
+      }
+
       chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
     };
+
+    let isSending = false;
 
     const toggleChat = (forceOpen) => {
       const open = typeof forceOpen === 'boolean'
@@ -712,10 +791,14 @@
       event.preventDefault();
       const message = chatInput.value.trim();
       if (!message) return;
+      if (isSending) return;
 
       appendMessage(message, 'user');
       chatInput.value = '';
-      trackEvent('chat_message_sent', { messageLength: message.length });
+      isSending = true;
+      chatInput.disabled = true;
+      if (chatSendButton) chatSendButton.disabled = true;
+      const loadingMessage = appendMessage('...', 'bot');
 
       try {
         const response = await fetch(CHAT_API_URL, {
@@ -724,7 +807,7 @@
           body: JSON.stringify({
             message,
             sessionId,
-            meta: { utmData, page: pagePath }
+            meta: buildMeta()
           })
         });
 
@@ -736,16 +819,25 @@
         const data = await response.json();
         console.log('[CHAT] chat ok');
         setBackendStatus(true);
-        appendMessage(data.reply || 'Recibido, gracias.', 'bot');
+        const actions = Array.isArray(data.actions) ? data.actions : [];
+        if (loadingMessage?.parentNode) loadingMessage.remove();
+        appendMessage(data.reply || 'Recibido, gracias.', 'bot', actions);
       } catch (error) {
         console.error('[CHAT] chat fail', error);
         setBackendStatus(false);
-        appendMessage('Tuvimos un problema al conectar con el asistente. Intenta nuevamente en unos minutos.', 'bot');
+        if (loadingMessage?.parentNode) loadingMessage.remove();
+        appendMessage('No hubo conexión, intenta de nuevo', 'bot');
+      } finally {
+        isSending = false;
+        chatInput.disabled = false;
+        if (chatSendButton) chatSendButton.disabled = false;
+        chatInput.focus();
       }
     });
 
     // Mensaje inicial de resiliencia
     appendMessage('Hola, soy el asistente INFINEUM. ¿Cómo puedo ayudarte hoy?');
+    trackEvent('page_view');
     checkBackend();
   </script>
 </body>
