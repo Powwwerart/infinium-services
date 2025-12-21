@@ -16,7 +16,7 @@
     rel="icon"
     href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%2300e6c7"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="%230b0b0f" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">VP</text></svg>'
   />
-  <title>VitalPay Autos × Bienestar</title>
+  <title>INFINIUM × Vital Health Global</title>
   <style>
     body {
       margin: 0;
@@ -26,28 +26,28 @@
       align-items: center;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 18% 22%, rgba(0, 230, 199, 0.08), transparent 28%),
-        radial-gradient(circle at 80% 16%, rgba(231, 200, 116, 0.09), transparent 34%),
-        linear-gradient(135deg, #0d0d13 0%, #0b0b0f 50%, #0d0d13 100%);
+        radial-gradient(circle at 18% 22%, rgba(16, 185, 194, 0.09), transparent 28%),
+        radial-gradient(circle at 78% 12%, rgba(244, 114, 182, 0.06), transparent 34%),
+        linear-gradient(140deg, #0c1018 0%, #0b0e15 45%, #0c1018 100%);
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      color: #e5f8ff;
+      color: #e8f4ff;
       text-align: center;
-      padding: 32px 18px 110px;
+      padding: 32px 18px 120px;
       box-sizing: border-box;
     }
 
     h1 {
-      font-size: clamp(2.2rem, 4vw, 3.4rem);
-      margin: 0 0 12px;
-      color: #e5f8ff;
-      letter-spacing: 0.4px;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      margin: 0 0 14px;
+      color: #f8fbff;
+      letter-spacing: 0.8px;
     }
 
     p {
-      color: #cbd5e1;
-      font-size: 1.05rem;
+      color: #d5e2f3;
+      font-size: 1.04rem;
       margin: 0;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     a { color: inherit; }
@@ -61,13 +61,13 @@
     .content {
       position: relative;
       width: min(1120px, 100%);
-      padding: 42px 36px 36px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(12, 12, 16, 0.78) 0%, rgba(11, 11, 15, 0.9) 100%);
+      padding: 46px 44px 40px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(12, 15, 24, 0.82) 0%, rgba(10, 12, 18, 0.94) 100%);
       box-shadow:
-        0 0 120px rgba(0, 230, 199, 0.09),
-        0 24px 90px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+        0 0 120px rgba(16, 185, 194, 0.12),
+        0 28px 90px rgba(0, 0, 0, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .buy-now-badge {
@@ -114,6 +114,7 @@
     .hero {
       display: grid;
       gap: 18px;
+      max-width: 1100px;
       text-align: left;
     }
 
@@ -121,26 +122,28 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(0, 230, 199, 0.12);
-      color: #00e6c7;
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.6px;
+      background: rgba(16, 185, 194, 0.14);
+      color: #22d3ee;
+      font-weight: 800;
+      font-size: 0.92rem;
+      letter-spacing: 0.8px;
       width: fit-content;
+      border: 1px solid rgba(34, 211, 238, 0.36);
+      text-transform: uppercase;
     }
 
     .subtitle {
-      font-size: 1.08rem;
-      color: #cbd5e1;
-      max-width: 860px;
-      line-height: 1.65;
+      font-size: 1.14rem;
+      color: #d5e2f3;
+      max-width: 920px;
+      line-height: 1.6;
     }
 
     .microcopy {
       font-size: 0.98rem;
-      color: #94a3b8;
+      color: #9fb4cd;
     }
 
     .cta-row {
@@ -154,45 +157,46 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       padding: 14px 22px;
       border-radius: 999px;
       font-weight: 800;
       text-decoration: none;
       border: 1px solid transparent;
       transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      min-height: 52px;
     }
 
     .cta-primary {
-      background: linear-gradient(135deg, #00e6c7 0%, #12b8a3 55%, #0ea5e9 100%);
-      color: #0b0b0f;
+      background: linear-gradient(135deg, #22d3ee 0%, #14b8a6 55%, #8b5cf6 100%);
+      color: #0b1020;
       box-shadow:
-        0 12px 30px rgba(0, 230, 199, 0.22),
+        0 12px 30px rgba(16, 185, 194, 0.24),
         0 18px 46px rgba(0, 0, 0, 0.45);
-      border-color: rgba(0, 230, 199, 0.4);
+      border-color: rgba(16, 185, 194, 0.35);
     }
 
     .cta-primary:hover {
       transform: translateY(-1px);
       box-shadow:
-        0 16px 34px rgba(0, 230, 199, 0.32),
+        0 16px 34px rgba(16, 185, 194, 0.32),
         0 22px 52px rgba(0, 0, 0, 0.55);
     }
 
     .cta-secondary {
       background: rgba(255, 255, 255, 0.04);
-      color: #e5f8ff;
-      border-color: rgba(255, 255, 255, 0.08);
+      color: #e8f4ff;
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .cta-secondary:hover {
       transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
     .support-note {
-      color: #a5b4fc;
+      color: #b2c5ff;
       font-size: 0.95rem;
       margin-top: 6px;
     }
@@ -203,7 +207,8 @@
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 16px;
-      padding: 18px 18px 22px;
+      padding: 20px 20px 22px;
+      max-width: 980px;
     }
 
     .why-section h2 {
@@ -224,7 +229,7 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 14px;
-      padding: 16px 16px 18px;
+      padding: 18px 18px 20px;
       text-align: left;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
       backdrop-filter: blur(4px);
@@ -238,13 +243,13 @@
     }
 
     .card-icon {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       display: grid;
       place-items: center;
       border-radius: 12px;
-      background: rgba(0, 230, 199, 0.14);
-      color: #00e6c7;
+      background: rgba(16, 185, 194, 0.14);
+      color: #22d3ee;
       font-size: 1.2rem;
       margin-bottom: 10px;
     }
@@ -301,38 +306,43 @@
     .chat-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
+      gap: 12px;
+      padding: 14px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(0, 230, 199, 0.4);
-      background: rgba(0, 230, 199, 0.14);
+      border: 1px solid rgba(34, 211, 238, 0.45);
+      background: linear-gradient(135deg, rgba(16, 185, 194, 0.18), rgba(139, 92, 246, 0.12));
       color: #e5f8ff;
       cursor: pointer;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(8px);
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.4),
+        0 0 18px rgba(16, 185, 194, 0.25);
+      backdrop-filter: blur(10px);
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
       font-size: 16px;
-      min-width: 180px;
+      min-width: 220px;
       justify-content: flex-start;
       text-align: left;
+      overflow: hidden;
+      position: relative;
+      animation: pulseGlow 3.8s ease-in-out infinite;
     }
 
     .chat-toggle strong {
       display: block;
-      font-size: 0.98rem;
-      letter-spacing: 0.2px;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
     }
 
     .chat-toggle span {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: #cbd5e1;
     }
 
     .chat-toggle:hover {
       transform: translateY(-2px);
       box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-      background: rgba(0, 230, 199, 0.18);
+      background: linear-gradient(135deg, rgba(16, 185, 194, 0.2), rgba(139, 92, 246, 0.18));
     }
 
     .chat-modal {
@@ -357,7 +367,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 14px 14px;
-      background: linear-gradient(135deg, rgba(0, 230, 199, 0.22), rgba(231, 200, 116, 0.18));
+      background: linear-gradient(135deg, rgba(16, 185, 194, 0.24), rgba(139, 92, 246, 0.16));
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       color: #e5f8ff;
       font-weight: 700;
@@ -367,7 +377,7 @@
     .chat-status {
       font-size: 0.82rem;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.78);
     }
 
     .chat-status.ok {
@@ -477,7 +487,7 @@
       padding: 10px 14px;
       border-radius: 12px;
       border: none;
-      background: linear-gradient(135deg, #00e6c7 0%, #22c55e 100%);
+      background: linear-gradient(135deg, #22d3ee 0%, #22c55e 100%);
       color: #0b0b0f;
       font-weight: 800;
       cursor: pointer;
@@ -488,6 +498,104 @@
     .chat-send:hover {
       transform: translateY(-1px);
       box-shadow: 0 14px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatars {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .trust-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 2px;
+    }
+
+    .trust-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #d7e6fb;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .quick-selector {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .quick-button {
+      border: 1px solid rgba(34, 197, 214, 0.2);
+      background: rgba(34, 197, 214, 0.12);
+      color: #e5f8ff;
+      padding: 12px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+      text-align: left;
+    }
+
+    .quick-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(0, 0, 0, 0.32);
+      background: rgba(34, 197, 214, 0.18);
+    }
+
+    .disclaimer {
+      margin-top: 10px;
+      color: #9fb4cd;
+      font-size: 0.92rem;
+    }
+
+    .chat-footer-note {
+      padding: 0 12px 10px;
+      font-size: 0.85rem;
+      color: #9fb4cd;
+    }
+
+    .assistant-figure {
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+      animation: waveMove 3.8s ease-in-out infinite;
+    }
+
+    .cta-text-group {
+      display: grid;
+      gap: 3px;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 12px rgba(16, 185, 194, 0.2); }
+      50% { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.44), 0 0 18px rgba(139, 92, 246, 0.26); }
+      100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 12px rgba(16, 185, 194, 0.2); }
+    }
+
+    @keyframes waveMove {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
     @media (max-width: 760px) {
@@ -544,32 +652,93 @@
   <div class="page">
     <div class="content">
       <div class="hero">
-        <div class="kicker">INFINEUM • VitalHealth • VitalPay Autos</div>
-        <h1>VITALPAY AUTOS × BIENESTAR</h1>
+        <div class="kicker">INFINIUM • Vital Health Global</div>
+        <h1>INFINIUM × VITAL HEALTH GLOBAL</h1>
         <p class="subtitle">
-          Si despiertas cansado, si ya estás harto de ver comerciales de “medicina para todo”… aquí tienes una alternativa:
-          nutrición + conocimiento para sentir la diferencia.
+          Si despiertas cansado y ya estás harto de ver comerciales de “medicina para todo”…
+          aquí tienes una alternativa: nutrición + conocimiento para sentir la diferencia.
         </p>
         <p class="microcopy">
-          No prometemos milagros. Te ayudamos a entender cómo nutrirte mejor y a elegir opciones con intención.
+          No prometemos milagros. Te ayudamos a entender cómo nutrirte mejor y elegir con intención.
         </p>
         <div class="cta-row">
-          <a class="cta-primary" href="https://wa.me/19565505115" id="btn-whatsapp-es">
-            💬 Hablar por WhatsApp (Español)
+          <a class="cta-primary" href="https://wa.me/19565505115?text=Hola%2C%20vengo%20de%20INFINIUM%20y%20quiero%20asesor%C3%ADa." id="btn-whatsapp-es">
+            <span class="avatars">
+              <span class="avatar-circle" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="es-skin" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop stop-color="#f0c7a3" offset="0"/>
+                      <stop stop-color="#d8a574" offset="1"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="32" cy="32" r="31" fill="#0f172a" />
+                  <circle cx="32" cy="28" r="14" fill="url(#es-skin)" />
+                  <rect x="18" y="38" width="28" height="12" rx="6" fill="#0ea5e9" />
+                  <path d="M20 24c2-4 6-7 12-7s10 3 12 7" stroke="#0b1020" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <circle cx="27" cy="28" r="3" fill="#0b1020"/>
+                  <circle cx="37" cy="28" r="3" fill="#0b1020"/>
+                  <path d="M27 34c2 2 8 2 10 0" stroke="#0b1020" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M18 35q-2-1-2-4t3-4" stroke="#0ea5e9" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M46 35q2-1 2-4t-3-4" stroke="#0ea5e9" stroke-width="3" fill="none" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </span>
+            <span class="cta-text-group">
+              <span>Asesoría en Español</span>
+              <small style="font-weight:600;color:#0b1020;">Respuesta humana + IA</small>
+            </span>
           </a>
-          <a class="cta-secondary" href="https://wa.me/19564421379" id="btn-whatsapp-en">
-            🌐 English Support
+          <a class="cta-secondary" href="https://wa.me/19564421379?text=Hello%2C%20I%20came%20from%20INFINIUM%20and%20I%20want%20support." id="btn-whatsapp-en">
+            <span class="avatars">
+              <span class="avatar-circle" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="en-hair" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop stop-color="#fbcfe8" offset="0"/>
+                      <stop stop-color="#fde68a" offset="1"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="32" cy="32" r="31" fill="#0f172a" />
+                  <path d="M18 30c0-8 6-15 14-15s14 7 14 15" fill="url(#en-hair)"/>
+                  <circle cx="32" cy="30" r="13" fill="#f1d3b3" />
+                  <rect x="19" y="40" width="26" height="10" rx="6" fill="#22d3ee" />
+                  <circle cx="27" cy="30" r="3" fill="#0b1020"/>
+                  <circle cx="37" cy="30" r="3" fill="#0b1020"/>
+                  <path d="M26 36c3 3 9 3 12 0" stroke="#0b1020" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M22 23c2-3 6-5 10-5s8 2 10 5" stroke="#0b1020" stroke-width="3" fill="none" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </span>
+            <span class="cta-text-group">
+              <span>English Support</span>
+              <small style="font-weight:600;color:#cbd5e1;">Friendly advisor</small>
+            </span>
           </a>
         </div>
+        <div class="trust-chips">
+          <span class="trust-chip">⚡ Asesoría en 30–60 segundos</span>
+          <span class="trust-chip">🔒 Privacidad: no vendemos tus datos</span>
+          <span class="trust-chip">✨ Sin promesas milagrosas</span>
+        </div>
         <div class="support-note">CTA directo, arriba del fold. Embudo simple por QR.</div>
+        <div class="disclaimer">Suplementos nutricionales. No sustituye consejo médico.</div>
+        <div class="quick-selector" aria-label="Selector rápido de necesidades">
+          <button class="quick-button" data-topic="energía">⚡ Energía</button>
+          <button class="quick-button" data-topic="sueño">🌙 Sueño</button>
+          <button class="quick-button" data-topic="estrés">🧠 Estrés</button>
+          <button class="quick-button" data-topic="digestión y peso">🍃 Digestión/Peso</button>
+        </div>
       </div>
 
       <section class="why-section" aria-label="Por qué existimos">
-        <h2>¿Por qué existimos?</h2>
+        <h2>¿Por qué existe INFINIUM?</h2>
         <p>
-          Hay gente que duerme y despierta cansada. Gente cansada de escuchar que la respuesta es otra pastilla.
-          Nosotros no prometemos más años de vida. Prometemos ayudarte a construir una mejor calidad de vida,
-          con nutrición y entendimiento para que sientas la diferencia.
+          Hay personas que duermen y despiertan cansadas.
+          Cansadas de escuchar que la respuesta es otra pastilla.
+          En INFINIUM no prometemos milagros ni más años de vida:
+          te ayudamos a construir una mejor calidad de vida con nutrición consciente,
+          conocimiento y acompañamiento inteligente para que sientas la diferencia.
         </p>
       </section>
 
@@ -596,21 +765,47 @@
   <div class="chat-widget" aria-live="polite">
     <div class="chat-modal" id="chatModal" role="dialog" aria-labelledby="chatTitle" aria-modal="true">
       <div class="chat-header">
-        <span id="chatTitle">Asistente Vital</span>
+        <span id="chatTitle">Asistente INFINIUM</span>
         <button class="chat-close" type="button" id="chatClose" aria-label="Cerrar chat">✕</button>
       </div>
-      <div class="chat-status" id="chatStatus">Backend no conectado</div>
+      <div class="chat-status" id="chatStatus">Estado: verificando conexión…</div>
       <div class="chat-messages" id="chatMessages"></div>
       <form class="chat-form" id="chatForm">
         <input class="chat-input" id="chatInput" type="text" name="message" placeholder="Escribe tu mensaje" autocomplete="off" required />
         <button class="chat-send" type="submit">Enviar</button>
       </form>
+      <div class="chat-footer-note">Suplementos nutricionales. No sustituye consejo médico.</div>
     </div>
     <button class="chat-toggle" id="chatToggle" aria-expanded="false" aria-controls="chatModal" aria-label="Abrir chat">
-      🤖
+      <svg class="assistant-figure" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="botBody" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stop-color="#22d3ee" offset="0"/>
+            <stop stop-color="#8b5cf6" offset="1"/>
+          </linearGradient>
+          <linearGradient id="botFace" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop stop-color="#f5e7ff" offset="0"/>
+            <stop stop-color="#dbeafe" offset="1"/>
+          </linearGradient>
+        </defs>
+        <rect x="22" y="26" width="76" height="64" rx="18" fill="url(#botBody)" opacity="0.18"/>
+        <rect x="30" y="30" width="60" height="56" rx="16" fill="#0f172a"/>
+        <rect x="34" y="34" width="52" height="48" rx="14" fill="url(#botFace)"/>
+        <rect x="46" y="24" width="28" height="10" rx="5" fill="#22d3ee"/>
+        <circle cx="46" cy="58" r="8" fill="#0f172a"/>
+        <circle cx="74" cy="58" r="8" fill="#0f172a"/>
+        <circle cx="43" cy="57" r="4" fill="#a5f3fc"/>
+        <circle cx="71" cy="57" r="4" fill="#c4b5fd"/>
+        <path d="M50 72c4 5 16 5 20 0" stroke="#0f172a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M86 66c4 4 8 2 8-2s-2-8-8-10" stroke="#22d3ee" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="38" cy="42" r="6" fill="#8b5cf6"/>
+        <circle cx="82" cy="42" r="6" fill="#22d3ee"/>
+        <path d="M60 26v-8" stroke="#8b5cf6" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="60" cy="16" r="4" fill="#22d3ee" stroke="#0f172a" stroke-width="3"/>
+      </svg>
       <div>
-        <strong>Asistente IA</strong>
-        <span>Responde en segundos</span>
+        <strong>Habla conmigo</strong>
+        <span>Asistente INFINIUM • Respuesta inmediata</span>
       </div>
     </button>
   </div>
@@ -631,6 +826,7 @@
     const compraBtn = document.getElementById('btn-compra');
     const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
     const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
+    const quickButtons = Array.from(document.querySelectorAll('.quick-button'));
     const chatToggle = document.getElementById('chatToggle');
     const chatModal = document.getElementById('chatModal');
     const chatMessages = document.getElementById('chatMessages');
@@ -736,7 +932,7 @@
       if (!chatStatus) return;
       const healthy = Boolean(isOk);
       window.__backendOk = healthy;
-      chatStatus.textContent = healthy ? 'Conectado ✅' : 'Backend no conectado';
+      chatStatus.textContent = healthy ? 'Asistente en línea ✅' : 'Reconectando…';
       chatStatus.classList.toggle('ok', healthy);
       chatStatus.classList.toggle('error', !healthy);
     };
@@ -759,7 +955,7 @@
 
     // ---- WhatsApp ----
     const buildWhatsAppMessage = () => {
-      const baseText = 'Hola, vengo de infinium.services y quiero asesoría.';
+      const baseText = 'Hola, vengo de INFINIUM y quiero asesoría.';
 
       if (!hasTrackingDetails) return baseText;
 
@@ -801,6 +997,7 @@
         sendCtaClick('whatsapp', btn.href || '');
       });
     });
+
 
     // ---- Chat UI ----
 
@@ -861,6 +1058,20 @@
       }
     };
 
+    quickButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const topic = button.dataset.topic || 'bienestar';
+        const message = `Busco ayuda con ${topic}.`;
+        toggleChat(true);
+        chatInput.value = message;
+        if (typeof chatForm.requestSubmit === 'function') {
+          chatForm.requestSubmit();
+        } else {
+          chatForm.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      });
+    });
+
     chatToggle?.addEventListener('click', () => toggleChat());
     chatClose?.addEventListener('click', () => toggleChat(false));
 
@@ -912,8 +1123,17 @@
       }
     });
 
-    // Mensaje inicial de resiliencia
-    appendMessage('Hola, soy el Asistente IA. ¿Cómo puedo ayudarte hoy?');
+    // Mensaje inicial
+    appendMessage(
+      'Hola, soy tu Asistente INFINIUM 🤖. Dime si buscas energía, sueño, estrés o digestión.',
+      'bot',
+      [{
+        label: 'Hablar con asesor humano',
+        type: 'whatsapp',
+        phone: '19565505115',
+        text: 'Hola, prefiero hablar con un asesor humano.'
+      }]
+    );
     trackEvent('page_view');
     checkBackend();
   </script>
