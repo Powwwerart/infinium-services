@@ -1,0 +1,59 @@
+{
+  "slug": "casa-luna",
+  "name": { "es": "Casa Luna", "en": "Casa Luna" },
+  "tagline": {
+    "es": "Cocina latina contemporánea",
+    "en": "Contemporary Latin cuisine"
+  },
+  "location": {
+    "address": "123 Calle Principal",
+    "city": "Miami",
+    "state": "FL",
+    "googleMapsUrl": "https://maps.google.com/?q=123+Calle+Principal+Miami+FL"
+  },
+  "hours": {
+    "schedule": [
+      { "days": "Mon-Fri", "open": "12:00", "close": "22:00" },
+      { "days": "Sat", "open": "12:00", "close": "23:00" },
+      { "days": "Sun", "open": "12:00", "close": "21:00" }
+    ]
+  },
+  "contact": {
+    "phone": "",
+    "whatsapp": "13055551234",
+    "whatsappMessage": {
+      "es": "Hola, vi su menú por QR y quisiera información.",
+      "en": "Hi, I saw your menu via QR and would like information."
+    }
+  },
+  "social": {
+    "facebook": "https://facebook.com/casaluna",
+    "instagram": "https://instagram.com/casaluna",
+    "tiktok": "",
+    "website": "https://casaluna.example.com"
+  },
+  "currency": "USD",
+  "menu": [
+    {
+      "category": { "es": "Entradas", "en": "Starters" },
+      "items": [
+        { "name": { "es": "Empanadas", "en": "Empanadas" }, "price": 8.5 },
+        { "name": { "es": "Ceviche de camarón", "en": "Shrimp ceviche" }, "price": 12 }
+      ]
+    },
+    {
+      "category": { "es": "Platos fuertes", "en": "Main courses" },
+      "items": [
+        { "name": { "es": "Pollo a la brasa", "en": "Rotisserie chicken" }, "price": 16 },
+        { "name": { "es": "Lomo saltado", "en": "Stir-fried steak" }, "price": 18.75 }
+      ]
+    },
+    {
+      "category": { "es": "Bebidas", "en": "Drinks" },
+      "items": [
+        { "name": { "es": "Limonada fresca", "en": "Fresh lemonade" }, "price": 4.5 },
+        { "name": { "es": "Café", "en": "Coffee" }, "price": 3 }
+      ]
+    }
+  ]
+}

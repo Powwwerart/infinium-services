@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menu QR</title>
+  <link rel="stylesheet" href="/assets/menu.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1 class="restaurant-name" id="restaurant-name">Pendiente</h1>
+      <p class="overline" id="restaurant-tagline">Pendiente</p>
+      <div class="language-toggle" role="group" aria-label="Selector de idioma">
+        <button type="button" class="lang-button is-active" data-lang="es">ES</button>
+        <button type="button" class="lang-button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="menu-section" aria-labelledby="menu-heading">
+        <div class="section-header">
+          <h2 id="menu-heading">Menú</h2>
+        </div>
+        <div id="menu-container" class="menu-container"></div>
+      </section>
+
+      <section class="info-section" aria-labelledby="hours-heading">
+        <div class="section-header">
+          <h2 id="hours-heading">Horarios</h2>
+        </div>
+        <div id="hours-container" class="info-card"></div>
+      </section>
+
+      <section class="info-section" aria-labelledby="location-heading">
+        <div class="section-header">
+          <h2 id="location-heading">Ubicación</h2>
+        </div>
+        <div id="location-container" class="info-card"></div>
+      </section>
+
+      <section class="actions" id="actions"></section>
+
+      <section class="social" id="social"></section>
+    </main>
+  </div>
+
+  <script type="module" src="/assets/menu.js"></script>
+</body>
+</html>
