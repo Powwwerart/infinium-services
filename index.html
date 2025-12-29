@@ -25,20 +25,50 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      background:
-        radial-gradient(circle at 16% 24%, rgba(59, 225, 205, 0.16), transparent 30%),
-        radial-gradient(circle at 84% 18%, rgba(186, 104, 255, 0.15), transparent 32%),
-        linear-gradient(140deg, #f1f9ff 0%, #e7f2ff 55%, #f4e8ff 100%);
+      background: #05070f;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      color: #0f172a;
+      color: #e2e8f0;
       text-align: center;
       padding: 28px 16px 120px;
       box-sizing: border-box;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.18), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.18), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(231, 200, 116, 0.14), transparent 45%);
+      animation: ambientShift 16s ease-in-out infinite;
+    }
+
+    body::after {
+      background: linear-gradient(140deg, rgba(2, 6, 23, 0.85) 0%, rgba(8, 12, 32, 0.92) 45%, rgba(7, 11, 26, 0.95) 100%);
     }
 
     h1 {
       font-size: clamp(2.6rem, 6vw, 4rem);
       margin: 0 0 12px;
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      color: #f8fafc;
+      letter-spacing: 1.2px;
+      line-height: 1;
+      background: linear-gradient(120deg, #e2e8f0 0%, #67e8f9 45%, #c4b5fd 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
+=======
       color: #0f172a;
       letter-spacing: 1.2px;
       line-height: 1;
@@ -47,10 +77,11 @@
       background-clip: text;
       color: transparent;
       text-shadow: 0 8px 24px rgba(23, 37, 84, 0.16);
+ main
     }
 
     p {
-      color: #1f2a44;
+      color: #cbd5f5;
       font-size: 1.04rem;
       margin: 0;
       line-height: 1.65;
@@ -69,10 +100,28 @@
       width: min(1080px, 100%);
       padding: 36px 36px 32px;
       border-radius: 24px;
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      background: rgba(8, 14, 28, 0.7);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      backdrop-filter: blur(14px);
+      z-index: 1;
+    }
+
+    .content::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      background: radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.18), transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+=======
       background: rgba(255, 255, 255, 0.85);
       box-shadow: 0 20px 60px rgba(12, 63, 102, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(14px);
+ main
     }
 
     .buy-now-badge {
@@ -123,6 +172,8 @@
       max-width: 960px;
       min-height: auto;
       text-align: left;
+      position: relative;
+      z-index: 2;
     }
 
     .kicker {
@@ -152,14 +203,29 @@
 
     .subtitle {
       font-size: 1.08rem;
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      color: #e2e8f0;
+=======
       color: #1f2a44;
+ main
       max-width: 740px;
       line-height: 1.5;
     }
 
     .microcopy {
       font-size: 0.98rem;
-      color: #3b4c70;
+      color: rgba(226, 232, 240, 0.78);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
 
     .cta-row {
@@ -167,6 +233,11 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 8px;
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      position: relative;
+      z-index: 55;
+=======
+ main
     }
 
     .cta-primary, .cta-secondary, .cta-tertiary {
@@ -181,6 +252,20 @@
       border: 1px solid transparent;
       transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
       min-height: 52px;
+
+      codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      box-shadow: 0 12px 24px rgba(2, 6, 23, 0.4);
+      position: relative;
+      z-index: 60;
+      pointer-events: auto;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.9) 0%, rgba(59, 130, 246, 0.9) 45%, rgba(168, 85, 247, 0.9) 100%);
+      color: #020617;
+      box-shadow: 0 18px 38px rgba(34, 211, 238, 0.28);
+      border-color: rgba(34, 211, 238, 0.5);
+=======
       box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
     }
 
@@ -189,23 +274,34 @@
       color: #081025;
       box-shadow: 0 12px 28px rgba(34, 211, 238, 0.25);
       border-color: rgba(16, 185, 194, 0.35);
+ main
     }
 
     .cta-primary:hover {
       transform: translateY(-1px);
       box-shadow:
-        0 16px 34px rgba(16, 185, 194, 0.32),
-        0 22px 52px rgba(0, 0, 0, 0.25);
+        0 18px 40px rgba(34, 211, 238, 0.35),
+        0 24px 54px rgba(0, 0, 0, 0.35);
     }
 
     .cta-secondary {
-      background: rgba(255, 255, 255, 0.6);
-      color: #0f172a;
-      border-color: rgba(15, 23, 42, 0.12);
+      background: rgba(15, 23, 42, 0.6);
+      color: #e2e8f0;
+      border-color: rgba(148, 163, 184, 0.3);
     }
 
     .cta-secondary:hover {
       transform: translateY(-1px);
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      background: rgba(30, 41, 59, 0.7);
+      box-shadow: 0 14px 28px rgba(2, 6, 23, 0.35);
+    }
+
+    .cta-tertiary {
+      background: rgba(148, 163, 184, 0.12);
+      color: #f8fafc;
+      border-color: rgba(148, 163, 184, 0.25);
+=======
       background: rgba(255, 255, 255, 0.82);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
     }
@@ -214,12 +310,18 @@
       background: rgba(15, 23, 42, 0.08);
       color: #0f172a;
       border-color: rgba(15, 23, 42, 0.12);
+ main
     }
 
     .cta-tertiary:hover {
       transform: translateY(-1px);
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      background: rgba(148, 163, 184, 0.2);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.25);
+=======
       background: rgba(15, 23, 42, 0.12);
       box-shadow: 0 10px 22px rgba(12, 63, 102, 0.16);
+ main
     }
 
 
@@ -487,12 +589,12 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(16, 185, 194, 0.12);
-      border: 1px solid rgba(16, 185, 194, 0.3);
-      color: #0f172a;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      color: #e2e8f0;
       font-weight: 700;
       font-size: 0.95rem;
-      box-shadow: 0 8px 18px rgba(16, 185, 194, 0.16);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
     }
 
     .quick-selector {
@@ -500,12 +602,20 @@
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
+      position: relative;
+      z-index: 2;
     }
 
     .quick-button {
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.55);
+      color: #e2e8f0;
+=======
       border: 1px solid rgba(15, 23, 42, 0.12);
       background: rgba(255, 255, 255, 0.75);
       color: #0f172a;
+ main
       padding: 12px 10px;
       border-radius: 12px;
       cursor: pointer;
@@ -517,6 +627,10 @@
 
     .quick-button:hover {
       transform: translateY(-1px);
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      background: rgba(34, 211, 238, 0.12);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.35);
+=======
       background: rgba(34, 197, 214, 0.08);
       box-shadow: 0 8px 18px rgba(12, 63, 102, 0.12);
     }
@@ -631,12 +745,100 @@
       font-size: 0.92rem;
       position: relative;
       z-index: 1;
+ main
     }
 
     .disclaimer {
       margin-top: 14px;
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      color: rgba(226, 232, 240, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .funnel-subcopy {
+      margin-top: 10px;
+      color: rgba(226, 232, 240, 0.85);
+      font-size: 0.98rem;
+    }
+
+    .action-section {
+      margin-top: 18px;
+      text-align: left;
+      position: relative;
+      z-index: 2;
+    }
+
+    .action-section h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: #f8fafc;
+      letter-spacing: 0.3px;
+    }
+
+    .action-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .action-card {
+      display: grid;
+      gap: 6px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.55);
+      color: #e2e8f0;
+      text-decoration: none;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      box-shadow: 0 12px 24px rgba(2, 6, 23, 0.35);
+      position: relative;
+      z-index: 55;
+      pointer-events: auto;
+    }
+
+    .action-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.5);
+      box-shadow: 0 16px 30px rgba(2, 6, 23, 0.45);
+    }
+
+    .action-card span {
+      font-size: 0.95rem;
+      color: rgba(226, 232, 240, 0.75);
+    }
+
+    .action-card strong {
+      font-size: 1.05rem;
+    }
+
+    .ai-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(34, 211, 238, 0.6);
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.9), rgba(59, 130, 246, 0.9));
+      color: #020617;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 16px 30px rgba(34, 211, 238, 0.35);
+      z-index: 80;
+      animation: pulseRing 3.5s ease-in-out infinite;
+    }
+
+    .ai-fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 34px rgba(34, 211, 238, 0.45);
+=======
       color: #3b4c70;
       font-size: 0.9rem;
+ main
     }
 
     .chat-footer-note {
@@ -696,6 +898,16 @@
       100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 12px rgba(16, 185, 194, 0.2); }
     }
 
+    @keyframes ambientShift {
+      0%, 100% { opacity: 0.9; transform: translateY(0); }
+      50% { opacity: 0.6; transform: translateY(-8px); }
+    }
+
+    @keyframes pulseRing {
+      0%, 100% { box-shadow: 0 12px 24px rgba(34, 211, 238, 0.32); }
+      50% { box-shadow: 0 18px 36px rgba(34, 211, 238, 0.45); }
+    }
+
     @keyframes waveMove {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
@@ -714,8 +926,13 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      .action-cards {
+        grid-template-columns: 1fr;
+=======
       .mood-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+ main
       }
     }
 
@@ -741,6 +958,16 @@
         padding: 12px;
       }
 
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+      .quick-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-fab {
+        right: 14px;
+        bottom: 18px;
+      }
+=======
  codex/improve-landing-page-aesthetics-and-ux-appo5l
       .quick-selector {
 =======
@@ -748,6 +975,7 @@
  main
         grid-template-columns: 1fr;
       }
+ main
     }
   </style>
 </head>
@@ -768,12 +996,41 @@
       <div class="hero">
         <div>
           <h1>INFINIUM</h1>
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+          <p class="subtitle">Asesoría rápida con IA + compra guiada para tu bienestar diario.</p>
+=======
           <p class="subtitle">Asesoría rápida + compra guiada. Sin promesas milagrosas.</p>
+ main
           <div class="trust-chips">
             <span class="trust-chip">Respuesta en 30–60s</span>
             <span class="trust-chip">Privacidad: no vendemos tus datos</span>
           </div>
           <div class="cta-row" aria-label="Acciones principales">
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+            <button class="cta-primary" type="button" data-chat-open="true" aria-label="Hablar con Asistente IA">Hablar con Asistente IA</button>
+            <a class="cta-secondary" href="https://vitalhealthglobal.com/collections/all?refID=145748" target="_blank" rel="noopener noreferrer" aria-label="Comprar ahora">Comprar ahora</a>
+            <button class="cta-tertiary" type="button" data-chat-open="true" aria-label="Unirme al equipo">Unirme al equipo</button>
+          </div>
+          <a class="visually-hidden" href="https://wa.me/19565505115?text=Hola%2C%20vengo%20de%20INFINIUM%20y%20quiero%20asesor%C3%ADa." id="btn-whatsapp-es">WhatsApp</a>
+          <a class="visually-hidden" href="https://wa.me/19564421379?text=Hello%2C%20I%20came%20from%20INFINIUM%20and%20I%20want%20support." id="btn-whatsapp-en">WhatsApp</a>
+          <div class="microcopy funnel-subcopy">Sin compromiso. Respuesta inmediata.</div>
+          <div class="action-section" aria-label="Qué quieres hacer hoy">
+            <h2>¿Qué quieres hacer hoy?</h2>
+            <div class="action-cards">
+              <a class="action-card" href="https://vitalhealthglobal.com/collections/all?refID=145748" target="_blank" rel="noopener noreferrer">
+                <strong>Comprar</strong>
+                <span>Acceso directo a productos.</span>
+              </a>
+              <button class="action-card" type="button" data-chat-open="true" aria-label="Unirme al equipo">
+                <strong>Unirme</strong>
+                <span>Quiero información para integrarme.</span>
+              </button>
+              <button class="action-card" type="button" data-chat-open="true" aria-label="Preguntar al asistente">
+                <strong>Preguntar</strong>
+                <span>Resuelve dudas con el asistente IA.</span>
+              </button>
+            </div>
+=======
             <button class="cta-primary" type="button" data-chat-open="true">Hablar ahora (IA)</button>
             <a class="cta-secondary" href="https://wa.me/19565505115?text=Hola%2C%20vengo%20de%20INFINIUM%20y%20quiero%20asesor%C3%ADa." id="btn-whatsapp-es">WhatsApp (humano)</a>
             <a class="cta-tertiary" href="https://vitalhealthglobal.com/collections/all?refID=145748" target="_blank" rel="noopener noreferrer">Comprar</a>
@@ -785,10 +1042,13 @@
             <button class="quick-button" type="button" data-prefill="Traigo problemas de digestión, ¿qué me recomiendas?">Digestión</button>
             <button class="quick-button" type="button" data-prefill="Me siento inflamado, ¿qué me recomiendas?">Inflamación</button>
             <button class="quick-button" type="button" data-prefill="Quiero apoyar el control de peso, ¿qué me recomiendas?">Peso</button>
+ main
           </div>
           <div class="disclaimer">Suplementos nutricionales. No sustituye consejo médico.</div>
         </div>
       </div>
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+=======
  codex/improve-landing-page-aesthetics-and-ux-appo5l
 =======
 
@@ -871,6 +1131,7 @@
         </div>
       </section>
  main
+ main
     </div>
   </div>
 
@@ -923,6 +1184,8 @@
     </button>
   </div>
 
+  <button class="ai-fab" type="button" data-chat-open="true" aria-label="Abrir Asistente IA">IA</button>
+
   <div class="multiverse-footer">Primera versión de mi multiverso</div>
 
   <script>
@@ -940,11 +1203,15 @@
     const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
     const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
     const quickButtons = Array.from(document.querySelectorAll('.quick-button'));
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+    const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
+=======
  codex/improve-landing-page-aesthetics-and-ux-appo5l
     const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
 =======
     const moodCards = Array.from(document.querySelectorAll('.mood-card'));
     const moodChatButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
+ main
  main
     const chatToggle = document.getElementById('chatToggle');
     const chatModal = document.getElementById('chatModal');
@@ -1165,6 +1432,61 @@
       chatInput.disabled = isLoading;
     };
 
+    window.INFINIUM = window.INFINIUM || {};
+    window.INFINIUM.openChat = function () {
+      const fallbackFunctions = ['openAssistant', 'openChat', 'toggleChat'];
+      for (const fnName of fallbackFunctions) {
+        const fn = window[fnName];
+        if (typeof fn === 'function' && fn !== window.INFINIUM.openChat) {
+          fn();
+          return true;
+        }
+      }
+
+      const widget = document.querySelector('#infinium-chat, #chat-widget, .chat-widget, #chatModal');
+      if (widget || chatToggle) {
+        if (chatToggle) {
+          chatToggle.click();
+        }
+        if (widget) {
+          widget.classList.add('open');
+          widget.style.display = 'flex';
+          widget.removeAttribute('hidden');
+        }
+        if (chatModal) {
+          chatModal.classList.add('open');
+          chatModal.style.display = 'flex';
+        }
+        if (chatToggle) {
+          chatToggle.setAttribute('aria-expanded', 'true');
+        }
+        if (chatInput) {
+          chatInput.focus();
+        }
+        return true;
+      }
+
+      const chatIframe = document.querySelector('iframe');
+      if (chatIframe) {
+        chatIframe.focus();
+        return true;
+      }
+
+      const chatUrlTarget = document.querySelector('[data-chat-url]');
+      if (chatUrlTarget?.dataset?.chatUrl) {
+        window.open(chatUrlTarget.dataset.chatUrl, '_blank', 'noopener,noreferrer');
+        return true;
+      }
+
+      const chatSection = document.getElementById('chat');
+      if (chatSection) {
+        chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+
+      return false;
+    };
+
     const handleChatToggle = () => {
       const isOpen = chatModal.classList.toggle('open');
       chatToggle.setAttribute('aria-expanded', String(isOpen));
@@ -1237,6 +1559,10 @@
 
     chatOpenButtons.forEach((button) => {
       button.addEventListener('click', () => {
+ codex/improve-landing-page-aesthetics-and-ux-rvhev7
+        window.INFINIUM.openChat();
+        trackEvent('chat_open_click', { label: button.textContent?.trim() || '' });
+=======
         openChatAndFocus();
         trackEvent('chat_open_click', { label: button.textContent?.trim() || '' });
       });
@@ -1262,6 +1588,7 @@
       button.addEventListener('click', () => {
         openChatAndFocus();
         trackEvent('mood_quick_action_click', { label: button.textContent?.trim() || '' });
+ main
       });
     });
 
