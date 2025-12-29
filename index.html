@@ -1,359 +1,617 @@
-<script>
-  // ---- Configuración base ----
-  const BACKEND_BASE_URL =
-    window.NEXT_PUBLIC_BACKEND_BASE_URL ||
-    window.BACKEND_BASE_URL ||
-    'https://infinium-chat-api.vercel.app';
+<!doctype html>
+<html lang="es">
+<head>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-883WEW264T');
+  </script>
 
-  const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
-  const EVENT_API_URL = `${BACKEND_BASE_URL}/api/event`;
-  const pagePath = `${window.location.pathname}${window.location.search}`;
-  const SESSION_STORAGE_KEY = 'infinium_session_id';
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INFINIUM × Vital Health Global</title>
 
-  // ---- Referencias DOM ----
-  const socialToggle = document.getElementById('socialToggle');
-  const socialPanel = document.getElementById('socialPanel');
-  const compraBtn = document.getElementById('btn-compra');
-  const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
-  const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
-
-  const quickButtons = Array.from(document.querySelectorAll('.quick-button'));
-  const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
-  const moodCards = Array.from(document.querySelectorAll('.mood-card')); // puede estar vacío y no pasa nada
-  const moodChatButtons = Array.from(document.querySelectorAll('.mood-action[data-chat-open="true"]')); // opcional
-
-  const chatToggle = document.getElementById('chatToggle');
-  const chatModal = document.getElementById('chatModal');
-  const chatMessages = document.getElementById('chatMessages');
-  const chatForm = document.getElementById('chatForm');
-  const chatInput = document.getElementById('chatInput');
-  const chatClose = document.getElementById('chatClose');
-  const chatStatus = document.getElementById('chatStatus');
-  const chatSendButton = document.querySelector('.chat-send');
-
-  // ---- UTM tracking ----
-  const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const persistUtmFromUrl = () => {
-    UTM_KEYS.forEach((key) => {
-      const value = urlParams.get(key);
-      if (value) sessionStorage.setItem(key, value);
-    });
-  };
-
-  const readUtmFromSession = () => {
-    const data = {};
-    UTM_KEYS.forEach((key) => {
-      const stored = sessionStorage.getItem(key);
-      if (stored) data[key] = stored;
-    });
-    return data;
-  };
-
-  persistUtmFromUrl();
-  const utmData = readUtmFromSession();
-
-  const hasTrackingDetails = Boolean(
-    utmData.utm_source || utmData.utm_campaign || utmData.utm_content
-  );
-
-  // ---- GA4 helpers ----
-  const sendGAEventSafely = (eventName, eventParams = {}) => {
-    if (typeof gtag === 'function') {
-      const gaParams = {
-        ...eventParams,
-        ...(utmData.utm_source ? { utm_source: utmData.utm_source } : {}),
-        ...(utmData.utm_campaign ? { utm_campaign: utmData.utm_campaign } : {}),
-        ...(utmData.utm_content ? { utm_content: utmData.utm_content } : {}),
-        page: pagePath
-      };
-      gtag('event', eventName, gaParams);
+  <style>
+    :root{
+      --bg:#05070f;
+      --panel: rgba(10, 14, 30, 0.72);
+      --border: rgba(148, 163, 184, 0.18);
+      --text:#e2e8f0;
+      --muted: rgba(226,232,240,.74);
+      --accent: #22d3ee;
+      --accent2:#8b5cf6;
+      --gold:#e7c874;
+      --shadow: 0 24px 80px rgba(2,6,23,.55);
+      --radius: 22px;
     }
-  };
 
-  // ---- Session ----
-  const getSessionId = () => {
-    const existing = localStorage.getItem(SESSION_STORAGE_KEY);
-    if (existing) return existing;
-
-    const generated =
-      (typeof crypto !== 'undefined' && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : `inf-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
-    localStorage.setItem(SESSION_STORAGE_KEY, generated);
-    return generated;
-  };
-
-  const sessionId = getSessionId();
-
-  // ---- Meta data ----
-  const buildMeta = () => ({
-    site_id: urlParams.get('s') || '',
-    team_id: urlParams.get('t') || '',
-    campaign_id: urlParams.get('c') || '',
-    page: pagePath,
-    ts: new Date().toISOString()
-  });
-
-  // ---- Event pipeline ----
-  const postEvent = (eventName, data = {}) => {
-    const payload = {
-      event: eventName,
-      sessionId,
-      meta: buildMeta(),
-      data
-    };
-
-    fetch(EVENT_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch((error) => console.warn('[EVENT PIPELINE] Error al enviar evento', error));
-  };
-
-  const trackEvent = (eventName, extra = {}) => {
-    sendGAEventSafely(eventName, extra);
-    postEvent(eventName, extra);
-  };
-
-  // ---- Backend health ----
-  const setBackendStatus = (isOk) => {
-    if (!chatStatus) return;
-    const healthy = Boolean(isOk);
-    window.__backendOk = healthy;
-    chatStatus.textContent = healthy ? 'Asistente en línea ✅' : 'Reconectando…';
-    chatStatus.classList.toggle('ok', healthy);
-    chatStatus.classList.toggle('error', !healthy);
-  };
-
-  const checkBackend = async () => {
-    try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/ping`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      const isOk = data?.ok === true;
-      setBackendStatus(isOk);
-      return isOk;
-    } catch (error) {
-      console.error('[CHAT] ping fail', error);
-      setBackendStatus(false);
-      return false;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      display:flex;
+      justify-content:center;
+      padding: 30px 16px 120px;
+      overflow-x:hidden;
     }
-  };
 
-  // ---- WhatsApp ----
-  const buildWhatsAppMessage = () => {
-    const baseText = 'Hola, vengo de INFINIUM y quiero asesoría.';
-    if (!hasTrackingDetails) return baseText;
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.18), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.18), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(231, 200, 116, 0.14), transparent 45%);
+      filter:saturate(1.1);
+      opacity:.95;
+      animation: ambient 16s ease-in-out infinite;
+    }
 
-    const source = utmData.utm_source || 'direct';
-    const campaign = utmData.utm_campaign || 'generic';
-    const content = utmData.utm_content || 'default';
+    @keyframes ambient{
+      0%,100%{transform:translateY(0); opacity:.9}
+      50%{transform:translateY(-8px); opacity:.65}
+    }
 
-    return `${baseText} Origen: ${source}. Campaña: ${campaign}. Contenido: ${content}.`;
-  };
+    .wrap{
+      width:min(1040px, 100%);
+      position:relative;
+      z-index:1;
+    }
 
-  const updateWhatsAppHref = (element, baseUrl, lang) => {
-    if (!element) return;
-    const url = new URL(baseUrl);
-    url.searchParams.set('text', buildWhatsAppMessage());
-    element.href = url.toString();
-    element.dataset.lang = lang;
-  };
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      padding: 34px;
+      position:relative;
+      overflow:hidden;
+    }
 
-  updateWhatsAppHref(whatsappEsBtn, 'https://wa.me/19565505115', 'es');
-  updateWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379', 'en');
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 20% 0%, rgba(34,211,238,.18), transparent 45%);
+      pointer-events:none;
+    }
 
-  // ---- UI listeners ----
-  const sendCtaClick = (ctaType, url) => {
-    trackEvent('cta_click', { cta: ctaType, url });
-  };
+    .kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 8px 14px;
+      border-radius:999px;
+      background: rgba(34,211,238,.12);
+      border: 1px solid rgba(34,211,238,.25);
+      color: var(--text);
+      font-weight:800;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      position:relative;
+      z-index:1;
+    }
 
-  if (socialToggle && socialPanel) {
-    socialToggle.addEventListener('click', () => {
-      const isOpen = socialPanel.classList.toggle('open');
-      socialToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-  }
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      line-height:1;
+      letter-spacing: 1.2px;
+      background: linear-gradient(120deg, #e2e8f0 0%, #67e8f9 45%, #c4b5fd 80%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 10px 30px rgba(56,189,248,.25);
+      position:relative;
+      z-index:1;
+    }
 
-  if (compraBtn) {
-    compraBtn.addEventListener('click', () => sendCtaClick('buy', compraBtn.href || ''));
-  }
+    .subtitle{
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.6;
+      position:relative;
+      z-index:1;
+    }
 
-  [whatsappEsBtn, whatsappEnBtn].forEach((btn) => {
-    if (!btn) return;
-    btn.addEventListener('click', () => sendCtaClick('whatsapp', btn.href || ''));
-  });
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 14px;
+      position:relative;
+      z-index:1;
+    }
+    .chip{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius:999px;
+      background: rgba(15,23,42,.55);
+      border: 1px solid rgba(34,211,238,.25);
+      font-weight:700;
+      color: var(--text);
+      box-shadow: 0 10px 22px rgba(15,23,42,.35);
+    }
 
-  // ---- Chat UI ----
-  const appendMessage = (text, type = 'bot', actions = []) => {
-    if (!chatMessages) return;
+    .cta{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+      position:relative;
+      z-index:1;
+    }
 
-    const div = document.createElement('div');
-    div.className = `chat-message ${type}`;
-    div.textContent = text;
-    chatMessages.appendChild(div);
+    .btn{
+      border:1px solid transparent;
+      border-radius: 14px;
+      padding: 14px 18px;
+      min-height: 52px;
+      font-weight: 900;
+      cursor:pointer;
+      text-decoration:none;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease;
+      box-shadow: 0 12px 24px rgba(2,6,23,.4);
+      user-select:none;
+    }
 
-    if (Array.isArray(actions) && actions.length > 0) {
-      const actionsContainer = document.createElement('div');
-      actionsContainer.className = 'chat-actions';
+    .btn-primary{
+      background: linear-gradient(135deg, rgba(34,211,238,.92) 0%, rgba(59,130,246,.9) 45%, rgba(168,85,247,.92) 100%);
+      color: #020617;
+      border-color: rgba(34,211,238,.45);
+      box-shadow: 0 18px 38px rgba(34,211,238,.22);
+    }
+    .btn-secondary{
+      background: rgba(15,23,42,.62);
+      color: var(--text);
+      border-color: rgba(148,163,184,.28);
+    }
+    .btn-tertiary{
+      background: rgba(148,163,184,.12);
+      color: var(--text);
+      border-color: rgba(148,163,184,.22);
+    }
+    .btn:hover{ transform: translateY(-1px); }
 
-      actions.forEach((action) => {
-        const actionBtn = document.createElement('button');
-        actionBtn.type = 'button';
-        actionBtn.className = 'chat-action-button';
-        actionBtn.textContent = action.label || 'Acción';
+    .disclaimer{
+      margin-top: 14px;
+      color: rgba(226,232,240,.62);
+      font-size: .92rem;
+      position:relative;
+      z-index:1;
+    }
 
-        actionBtn.addEventListener('click', () => {
-          if (action.type === 'open_url' && action.url) {
-            sendCtaClick('buy', action.url);
-            window.open(action.url, '_blank', 'noopener,noreferrer');
-          } else if (action.type === 'whatsapp' && action.phone) {
-            const phoneDigits = String(action.phone || '').replace(/\D/g, '');
-            const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(action.text || '')}`;
-            sendCtaClick('whatsapp', waUrl);
-            window.open(waUrl, '_blank', 'noopener,noreferrer');
-          } else if (action.url) {
-            sendCtaClick('join', action.url);
-            window.open(action.url, '_blank', 'noopener,noreferrer');
-          }
-        });
+    /* Badge compra */
+    .buy-badge{
+      position:fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 50;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #0f172a;
+      border: 1px solid rgba(231,200,116,.65);
+      text-decoration:none;
+      box-shadow: 0 0 14px rgba(231,200,116,.22), 0 20px 40px rgba(0,0,0,.35);
+      transition: transform .18s ease;
+    }
+    .buy-badge:hover{ transform: translateY(-2px); }
+    .buy-badge .t{ font-weight:900; letter-spacing: 1.6px; color:#e5f8ff; display:block; }
+    .buy-badge .s{ font-size:.75rem; color: rgba(197,240,255,.85); display:block; }
 
-        actionsContainer.appendChild(actionBtn);
+    /* Chat widget */
+    .chat-widget{
+      position: fixed;
+      left: 18px;
+      bottom: 24px;
+      z-index: 60;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .chat-toggle{
+      border: 1px solid rgba(34,211,238,.55);
+      background: linear-gradient(135deg, rgba(16,185,194,.28), rgba(139,92,246,.22));
+      color: #0f172a;
+      border-radius: 999px;
+      padding: 12px 14px;
+      cursor:pointer;
+      font-weight: 900;
+      min-width: 240px;
+      box-shadow: 0 14px 28px rgba(15,23,42,.18), 0 0 18px rgba(16,185,194,.18);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .chat-toggle small{ font-weight: 800; opacity:.8; }
+
+    .chat-modal{
+      width: min(380px, 92vw);
+      max-height: 72vh;
+      display:none;
+      flex-direction:column;
+      background: rgba(15,23,42,.94);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      overflow:hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+    .chat-modal.open{ display:flex; }
+
+    .chat-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(16,185,194,.24), rgba(139,92,246,.16));
+      border-bottom:1px solid rgba(255,255,255,.08);
+      color:#e5f8ff;
+      font-weight:900;
+    }
+    .chat-close{
+      border:none;
+      background:transparent;
+      color:#e5f8ff;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .chat-status{
+      padding: 10px 14px;
+      font-size:.86rem;
+      color: rgba(255,255,255,.74);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .chat-status.ok{ color:#22c55e; }
+    .chat-status.error{ color:#f87171; }
+
+    .chat-messages{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow:auto;
+      max-height: 320px;
+    }
+    .msg{
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: .95rem;
+      line-height: 1.4;
+      text-align:left;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: #cbd5e1;
+    }
+    .msg.user{
+      align-self:flex-end;
+      background: rgba(34,197,214,.14);
+      border-color: rgba(34,197,214,.22);
+      color:#e5f8ff;
+    }
+
+    .chat-form{
+      display:flex;
+      gap:8px;
+      padding: 10px 12px 12px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(15,23,42,.92);
+    }
+    .chat-input{
+      flex:1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color:#e5f8ff;
+      font-size:.98rem;
+      outline:none;
+    }
+    .chat-send{
+      padding: 10px 14px;
+      border-radius: 12px;
+      border:none;
+      cursor:pointer;
+      font-weight: 900;
+      background: linear-gradient(135deg, #22d3ee 0%, #22c55e 100%);
+      color: #0b0b0f;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+
+    .footer-note{
+      position:fixed;
+      left:50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      font-weight:700;
+      background: linear-gradient(135deg, #f8e9b0 0%, #e7c874 35%, #cfa14a 65%, #a6731f 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow: 0 2px 10px rgba(0,0,0,.35);
+      z-index: 10;
+    }
+
+    @media (max-width: 760px){
+      .panel{ padding: 24px; }
+      .cta{ grid-template-columns: 1fr; }
+      .buy-badge{ top:12px; right:12px; }
+      .chat-toggle{ min-width: 0; width: 92vw; justify-content:space-between; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="buy-badge" id="btn-compra"
+     href="https://vitalhealthglobal.com/collections/all?refID=145748"
+     target="_blank" rel="noopener noreferrer">
+    <span class="t">COMPRA YA</span>
+    <span class="s">VitalHealth Store</span>
+  </a>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="kicker">INFINIUM ♾ VitalHealth</div>
+      <h1>INFINIUM</h1>
+      <p class="subtitle">Asesoría rápida con IA + compra guiada para tu bienestar diario. Sin promesas milagrosas. Suplementos nutricionales.</p>
+
+      <div class="chips">
+        <span class="chip">⚡ Respuesta en 30–60s</span>
+        <span class="chip">🛡️ Privacidad: no vendemos tus datos</span>
+        <span class="chip">📍 QR → Chat → Compra</span>
+      </div>
+
+      <div class="cta" aria-label="Acciones principales">
+        <button class="btn btn-primary" type="button" data-chat-open="true">Hablar con Asistente IA</button>
+        <a class="btn btn-secondary" href="https://vitalhealthglobal.com/collections/all?refID=145748" target="_blank" rel="noopener noreferrer">Comprar ahora</a>
+        <button class="btn btn-tertiary" type="button" data-chat-open="true" data-prefill="Quiero información para unirme al equipo.">Unirme al equipo</button>
+      </div>
+
+      <div class="disclaimer">Este producto no es un medicamento. Consulte a su médico. El consumo es responsabilidad de quien lo recomienda y de quien lo usa.</div>
+    </section>
+  </main>
+
+  <div class="chat-widget">
+    <div class="chat-modal" id="chatModal" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+      <div class="chat-header">
+        <span id="chatTitle">Asistente INFINIUM</span>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="chat-status" id="chatStatus">Estado: verificando conexión…</div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <form class="chat-form" id="chatForm">
+        <input class="chat-input" id="chatInput" placeholder="Escribe tu mensaje" autocomplete="off" required />
+        <button class="chat-send" type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <button class="chat-toggle" id="chatToggle" type="button" aria-expanded="false" aria-controls="chatModal">
+      <span>Atención inmediata</span>
+      <small>IA + humano</small>
+    </button>
+  </div>
+
+  <div class="footer-note">Primera versión de mi multiverso</div>
+
+  <!-- WhatsApp hidden anchors (por si quieres trackearlos luego) -->
+  <a id="btn-whatsapp-es" href="https://wa.me/19565505115" style="display:none;">WhatsApp ES</a>
+  <a id="btn-whatsapp-en" href="https://wa.me/19564421379" style="display:none;">WhatsApp EN</a>
+
+  <script>
+    // ---- Base ----
+    const BACKEND_BASE_URL =
+      window.NEXT_PUBLIC_BACKEND_BASE_URL ||
+      window.BACKEND_BASE_URL ||
+      'https://infinium-chat-api.vercel.app';
+
+    const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
+    const EVENT_API_URL = `${BACKEND_BASE_URL}/api/event`;
+    const SESSION_STORAGE_KEY = 'infinium_session_id';
+
+    // ---- DOM ----
+    const chatToggle = document.getElementById('chatToggle');
+    const chatModal = document.getElementById('chatModal');
+    const chatClose = document.getElementById('chatClose');
+    const chatStatus = document.getElementById('chatStatus');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.querySelector('.chat-send');
+
+    const compraBtn = document.getElementById('btn-compra');
+    const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
+    const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
+
+    const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // ---- UTM ----
+    const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    const persistUtmFromUrl = () => {
+      UTM_KEYS.forEach((k) => {
+        const v = urlParams.get(k);
+        if (v) sessionStorage.setItem(k, v);
       });
+    };
+    const readUtmFromSession = () => {
+      const d = {};
+      UTM_KEYS.forEach((k) => {
+        const v = sessionStorage.getItem(k);
+        if (v) d[k] = v;
+      });
+      return d;
+    };
+    persistUtmFromUrl();
+    const utm = readUtmFromSession();
 
-      chatMessages.appendChild(actionsContainer);
-    }
+    // ---- Session ----
+    const getSessionId = () => {
+      const existing = localStorage.getItem(SESSION_STORAGE_KEY);
+      if (existing) return existing;
+      const gen = (crypto?.randomUUID) ? crypto.randomUUID() : `inf-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(SESSION_STORAGE_KEY, gen);
+      return gen;
+    };
+    const sessionId = getSessionId();
 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  };
-
-  const setChatLoading = (isLoading) => {
-    if (chatSendButton) chatSendButton.disabled = isLoading;
-    if (chatInput) chatInput.disabled = isLoading;
-  };
-
-  // ---- OpenChat único (sin duplicados) ----
-  window.INFINIUM = window.INFINIUM || {};
-  window.INFINIUM.openChat = function () {
-    if (!chatModal || !chatToggle) return false;
-
-    if (!chatModal.classList.contains('open')) {
-      chatModal.classList.add('open');
-      chatToggle.setAttribute('aria-expanded', 'true');
-      checkBackend();
-      chatInput?.focus();
-    } else {
-      chatInput?.focus();
-    }
-    return true;
-  };
-
-  const handleChatToggle = () => {
-    if (!chatModal || !chatToggle) return;
-    const isOpen = chatModal.classList.toggle('open');
-    chatToggle.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen) {
-      checkBackend();
-      chatInput?.focus();
-    }
-  };
-
-  const openChatAndFocus = () => {
-    if (window.INFINIUM?.openChat) window.INFINIUM.openChat();
-  };
-
-  const prefillChatInput = (message) => {
-    if (!message) return;
-    openChatAndFocus();
-    if (chatInput) {
-      chatInput.value = message;
-      chatInput.focus();
-    }
-  };
-
-  if (chatToggle) chatToggle.addEventListener('click', handleChatToggle);
-  if (chatClose) chatClose.addEventListener('click', handleChatToggle);
-
-  if (chatForm) {
-    chatForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const message = chatInput?.value.trim();
-      if (!message) return;
-
-      appendMessage(message, 'user');
-      chatInput.value = '';
-      setChatLoading(true);
-
-      try {
-        const payload = { message, sessionId, meta: buildMeta(), quick: false };
-
-        const response = await fetch(CHAT_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        const reply = data?.reply || 'Estamos recibiendo tu mensaje...';
-        appendMessage(reply, 'bot', data?.actions || []);
-        trackEvent('chat_message_sent', { length: message.length });
-      } catch (error) {
-        console.error('[CHAT] error', error);
-        appendMessage('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
-      } finally {
-        setChatLoading(false);
-      }
+    // ---- Meta ----
+    const buildMeta = () => ({
+      site_id: urlParams.get('s') || '',
+      team_id: urlParams.get('t') || '',
+      campaign_id: urlParams.get('c') || '',
+      page: `${location.pathname}${location.search}`,
+      utm,
+      ts: new Date().toISOString()
     });
-  }
 
-  quickButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const suggestion = button.dataset.prefill || '';
-      prefillChatInput(suggestion);
-      trackEvent('quick_topic_click', { label: button.textContent?.trim() || '' });
-    });
-  });
-
-  chatOpenButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      openChatAndFocus();
-      trackEvent('chat_open_click', { label: button.textContent?.trim() || '' });
-    });
-  });
-
-  // Mood cards (si existen)
-  moodCards.forEach((card) => {
-    const handleMoodSelect = () => {
-      const message = card.dataset.prefill || '';
-      prefillChatInput(message);
-      trackEvent('mood_card_click', { message });
+    // ---- Tracking helpers ----
+    const sendGA = (name, params={}) => {
+      if (typeof gtag === 'function') gtag('event', name, { ...params });
     };
 
-    card.addEventListener('click', handleMoodSelect);
-    card.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        handleMoodSelect();
+    const postEvent = (event, data={}) => {
+      fetch(EVENT_API_URL, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ event, sessionId, meta: buildMeta(), data })
+      }).catch(()=>{});
+    };
+
+    const track = (event, data={}) => {
+      sendGA(event, data);
+      postEvent(event, data);
+    };
+
+    // ---- WhatsApp message enrichment ----
+    const buildWhatsAppMessage = () => {
+      const base = 'Hola, vengo de INFINIUM y quiero asesoría.';
+      const s = utm.utm_source || '';
+      const c = utm.utm_campaign || '';
+      const ct = utm.utm_content || '';
+      if (!s && !c && !ct) return base;
+      return `${base} Origen:${s||'direct'} Campaña:${c||'generic'} Contenido:${ct||'default'}.`;
+    };
+
+    const setWhatsAppHref = (el, baseUrl) => {
+      if (!el) return;
+      const u = new URL(baseUrl);
+      u.searchParams.set('text', buildWhatsAppMessage());
+      el.href = u.toString();
+    };
+
+    setWhatsAppHref(whatsappEsBtn, 'https://wa.me/19565505115');
+    setWhatsAppHref(whatsappEnBtn, 'https://wa.me/19564421379');
+
+    // ---- UI Chat ----
+    const setStatus = (ok) => {
+      if (!chatStatus) return;
+      chatStatus.textContent = ok ? 'Asistente en línea ✅' : 'Reconectando…';
+      chatStatus.classList.toggle('ok', !!ok);
+      chatStatus.classList.toggle('error', !ok);
+    };
+
+    const ping = async () => {
+      try{
+        const r = await fetch(`${BACKEND_BASE_URL}/api/ping`);
+        const j = await r.json();
+        setStatus(j?.ok === true);
+      }catch(e){
+        setStatus(false);
       }
-    });
-  });
+    };
 
-  moodChatButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      openChatAndFocus();
-      trackEvent('mood_quick_action_click', { label: button.textContent?.trim() || '' });
-    });
-  });
+    const appendMsg = (text, who='bot') => {
+      const div = document.createElement('div');
+      div.className = `msg ${who === 'user' ? 'user' : ''}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
 
-  // ---- Init ----
-  appendMessage('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?', 'bot');
-  checkBackend();
-  console.log('[INFINIUM] boot ok', {
-    chatToggle: !!chatToggle,
-    chatModal: !!chatModal,
-    openBtns: chatOpenButtons.length
-  });
-</script>
+    const toggleChat = (forceOpen=null) => {
+      const isOpen = chatModal.classList.contains('open');
+      const next = (forceOpen === null) ? !isOpen : !!forceOpen;
+      chatModal.classList.toggle('open', next);
+      chatToggle.setAttribute('aria-expanded', String(next));
+      if (next) {
+        ping();
+        setTimeout(()=>chatInput?.focus(), 40);
+      }
+    };
+
+    if (chatToggle) chatToggle.addEventListener('click', () => toggleChat());
+    if (chatClose) chatClose.addEventListener('click', () => toggleChat(false));
+
+    // CTA opens chat + optional prefill
+    chatOpenButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        toggleChat(true);
+        const prefill = btn.dataset.prefill || '';
+        if (prefill) chatInput.value = prefill;
+        track('chat_open_click', { label: (btn.textContent || '').trim() });
+      });
+    });
+
+    // Track buy click
+    if (compraBtn) compraBtn.addEventListener('click', () => track('cta_click', { cta:'buy', url: compraBtn.href }));
+
+    // Submit
+    const setLoading = (v) => {
+      if (chatSendBtn) chatSendBtn.disabled = v;
+      if (chatInput) chatInput.disabled = v;
+    };
+
+    if (chatForm) {
+      chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = (chatInput.value || '').trim();
+        if (!msg) return;
+
+        appendMsg(msg, 'user');
+        chatInput.value = '';
+        setLoading(true);
+
+        try{
+          track('chat_message_sent', { length: msg.length });
+
+          const r = await fetch(CHAT_API_URL, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ message: msg, sessionId, meta: buildMeta(), quick:false })
+          });
+
+          const data = await r.json();
+          const reply = data?.reply || 'Recibido. Un momento…';
+          appendMsg(reply, 'bot');
+        }catch(err){
+          appendMsg('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
+        }finally{
+          setLoading(false);
+        }
+      });
+    }
+
+    // Init
+    appendMsg('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?', 'bot');
+    ping();
+    console.log('[INFINIUM] boot', { BACKEND_BASE_URL, CHAT_API_URL, EVENT_API_URL });
+  </script>
+</body>
+</html>
