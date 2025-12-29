@@ -5,6 +5,10 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
   <script type="module">
     import { detectCategory, handleUserMessage } from './js/commandChain.js';
+    // Exponer la cadena de comandos al scope global del chat.
+    window.INFINIUM = window.INFINIUM || {};
+    window.INFINIUM.detectCategory = detectCategory;
+    window.INFINIUM.handleUserMessage = handleUserMessage;
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -743,16 +747,34 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       ];
     };
 
+    const renderBotMessage = (text, actions = []) => {
+      appendMessage(text, 'bot', actions);
+    };
+
+    // Verificación manual del render (si se necesita):
+    // renderBotMessage('PRUEBA BOT OK');
+
     const processUserMessage = async (message, { quick = false } = {}) => {
       appendMessage(message, 'user');
       if (chatInput) chatInput.value = '';
       setChatLoading(true);
 
-      const lockedCategory = detectCategory(message);
-      const lockedReply = handleUserMessage(message);
+      const userText = message;
+      console.log('MENSAJE USUARIO:', userText);
 
-      if (lockedReply) {
-        appendMessage(lockedReply, 'bot', buildLockedActions(lockedCategory));
+      const detectCategoryFn = window.INFINIUM?.detectCategory;
+      const handleUserMessageFn = window.INFINIUM?.handleUserMessage;
+
+      if (typeof detectCategoryFn !== 'function' || typeof handleUserMessageFn !== 'function') {
+        console.warn('[CHAT] commandChain no disponible en el scope global.');
+      }
+
+      const lockedCategory = typeof detectCategoryFn === 'function' ? detectCategoryFn(userText) : null;
+      const lockedReply = typeof handleUserMessageFn === 'function' ? handleUserMessageFn(userText) : null;
+      console.log('LOCKED RESPONSE:', lockedReply);
+
+      if (typeof lockedReply === 'string') {
+        renderBotMessage(lockedReply, buildLockedActions(lockedCategory));
         setChatLoading(false);
         return;
       }
