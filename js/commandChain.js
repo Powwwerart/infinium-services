@@ -61,7 +61,7 @@ export const detectCategory = (userInput = '') => {
     { category: 'enfoque', keywords: ['enfoque', 'concentr'] },
     { category: 'peso', keywords: ['peso', 'metabol'] },
     { category: 'articulaciones', keywords: ['articul'] },
-    { category: 'bienestar', keywords: ['bienestar', 'general'] },
+    { category: 'bienestar', keywords: ['bienestar', 'bienestar general'] },
     { category: 'escaneo', keywords: ['escaneo'] }
   ];
 
@@ -139,10 +139,16 @@ export const handleUserMessage = (userMessage = '') => {
   if (!mapped || !mapped.product) return null;
 
   const price = getMinPriceUSD(mapped.product);
-  if (price === null) return null;
+  if (price === null) {
+    // Si falta el precio, mostramos menú y evitamos responder con producto.
+    return buildMenuResponse();
+  }
 
   const formattedPrice = formatUSD(price);
-  if (!formattedPrice) return null;
+  if (!formattedPrice) {
+    // Si no hay precio formateable, mostramos menú para continuar.
+    return buildMenuResponse();
+  }
 
   return buildProductResponse({
     categoryLabel: mapped.categoryLabel,
