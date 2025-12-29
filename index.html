@@ -3,7 +3,8 @@
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
-  <script>
+  <script type="module">
+    import { detectCategory, handleUserMessage } from './js/commandChain.js';
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -680,6 +681,11 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
               window.open(waUrl, '_blank', 'noopener,noreferrer');
               return;
             }
+            if (action.type === 'send_message' && action.message) {
+              openChatAndFocus();
+              processUserMessage(action.message, { quick: true });
+              return;
+            }
             if (action.url) {
               sendCtaClick('action', action.url);
               window.open(action.url, '_blank', 'noopener,noreferrer');
@@ -728,6 +734,55 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       }
     };
 
+    const buildLockedActions = (category) => {
+      if (!category) return [];
+      return [
+        { label: 'Comprar ahora', type: 'send_message', message: 'Comprar ahora' },
+        { label: 'WhatsApp', type: 'send_message', message: 'Hablar con un asesor por WhatsApp' },
+        { label: 'Escaneo', type: 'send_message', message: 'Quiero algo más personalizado (escaneo)' }
+      ];
+    };
+
+    const processUserMessage = async (message, { quick = false } = {}) => {
+      appendMessage(message, 'user');
+      if (chatInput) chatInput.value = '';
+      setChatLoading(true);
+
+      const lockedCategory = detectCategory(message);
+      const lockedReply = handleUserMessage(message);
+
+      if (lockedReply) {
+        appendMessage(lockedReply, 'bot', buildLockedActions(lockedCategory));
+        setChatLoading(false);
+        return;
+      }
+
+      try {
+        const payload = { message, sessionId, meta: buildMeta(), quick };
+
+        const response = await fetch(CHAT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        // Si backend regresa HTML por error, esto evita crash silencioso
+        const contentType = response.headers.get('content-type') || '';
+        const data = contentType.includes('application/json')
+          ? await response.json()
+          : { reply: await response.text() };
+
+        const reply = data?.reply || 'Recibí tu mensaje. Dame un segundo…';
+        appendMessage(reply, 'bot', data?.actions || []);
+        trackEvent('chat_message_sent', { length: message.length });
+      } catch (error) {
+        console.error('[CHAT] error', error);
+        appendMessage('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
+      } finally {
+        setChatLoading(false);
+      }
+    };
+
     // API pública para botones
     window.INFINIUM = window.INFINIUM || {};
     window.INFINIUM.openChat = openChatAndFocus;
@@ -741,41 +796,19 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
         const message = (chatInput?.value || '').trim();
         if (!message) return;
 
-        appendMessage(message, 'user');
-        if (chatInput) chatInput.value = '';
-        setChatLoading(true);
-
-        try {
-          const payload = { message, sessionId, meta: buildMeta(), quick: false };
-
-          const response = await fetch(CHAT_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          // Si backend regresa HTML por error, esto evita crash silencioso
-          const contentType = response.headers.get('content-type') || '';
-          const data = contentType.includes('application/json')
-            ? await response.json()
-            : { reply: await response.text() };
-
-          const reply = data?.reply || 'Recibí tu mensaje. Dame un segundo…';
-          appendMessage(reply, 'bot', data?.actions || []);
-          trackEvent('chat_message_sent', { length: message.length });
-        } catch (error) {
-          console.error('[CHAT] error', error);
-          appendMessage('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
-        } finally {
-          setChatLoading(false);
-        }
+        await processUserMessage(message, { quick: false });
       });
     }
 
     quickButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const suggestion = button.dataset.prefill || '';
-        prefillChatInput(suggestion);
+        if (button.closest('.quick-selector')) {
+          openChatAndFocus();
+          processUserMessage(suggestion, { quick: true });
+        } else {
+          prefillChatInput(suggestion);
+        }
         trackEvent('quick_topic_click', { label: (button.textContent || '').trim() });
       });
     });
