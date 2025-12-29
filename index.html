@@ -521,6 +521,118 @@
       box-shadow: 0 8px 18px rgba(12, 63, 102, 0.12);
     }
 
+    .mood-section {
+      margin-top: 24px;
+      text-align: left;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow:
+        0 18px 40px rgba(12, 63, 102, 0.18),
+        0 0 40px rgba(34, 211, 238, 0.18);
+      color: #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mood-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 12% 20%, rgba(34, 211, 238, 0.18), transparent 45%);
+      pointer-events: none;
+    }
+
+    .mood-section h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: #ecfeff;
+      letter-spacing: 0.4px;
+    }
+
+    .mood-section p {
+      margin: 0;
+      color: rgba(226, 232, 240, 0.82);
+      font-size: 1.05rem;
+    }
+
+    .mood-actions {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mood-action {
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      background: rgba(15, 23, 42, 0.6);
+      color: #ecfeff;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+    }
+
+    .mood-action:hover {
+      transform: translateY(-1px);
+      background: rgba(34, 211, 238, 0.18);
+      box-shadow: 0 12px 26px rgba(34, 211, 238, 0.24);
+    }
+
+    .mood-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mood-card {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      border-radius: 16px;
+      padding: 18px 18px 20px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.35);
+    }
+
+    .mood-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.6);
+      box-shadow:
+        0 14px 32px rgba(15, 23, 42, 0.4),
+        0 0 22px rgba(34, 211, 238, 0.4);
+    }
+
+    .mood-emoji {
+      font-size: 2.1rem;
+      margin-bottom: 10px;
+    }
+
+    .mood-text {
+      font-size: 1.05rem;
+      color: #e2e8f0;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .mood-disclaimer {
+      margin-top: 16px;
+      color: rgba(226, 232, 240, 0.7);
+      font-size: 0.92rem;
+      position: relative;
+      z-index: 1;
+    }
+
     .disclaimer {
       margin-top: 14px;
       color: #3b4c70;
@@ -601,6 +713,10 @@
       .quick-selector {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .mood-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 480px) {
@@ -625,7 +741,11 @@
         padding: 12px;
       }
 
+ codex/improve-landing-page-aesthetics-and-ux-appo5l
       .quick-selector {
+=======
+      .mood-grid {
+ main
         grid-template-columns: 1fr;
       }
     }
@@ -669,6 +789,88 @@
           <div class="disclaimer">Suplementos nutricionales. No sustituye consejo médico.</div>
         </div>
       </div>
+ codex/improve-landing-page-aesthetics-and-ux-appo5l
+=======
+
+      <section class="mood-section" aria-label="Selector de necesidades">
+        <h2>¿Cómo te sientes hoy?</h2>
+        <p>Elige una opción y te atendemos en menos de 60 segundos.</p>
+        <div class="mood-actions" aria-label="Accesos rápidos">
+          <button class="mood-action" type="button" data-chat-open="true">Hablar ahora</button>
+          <button class="mood-action" type="button" data-chat-open="true">Asesoría en Español</button>
+          <button class="mood-action" type="button" data-chat-open="true">English Support</button>
+          <a class="mood-action" href="https://vitalhealthglobal.com/collections/all?refID=145748" target="_blank" rel="noopener noreferrer">Comprar (tienda)</a>
+          <a class="mood-action" href="https://wa.me/19565505115" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+        <div class="mood-grid" aria-label="Opciones principales">
+          <article class="mood-card" role="button" tabindex="0" data-prefill="Me siento cansado todo el tiempo. ¿Qué me recomiendas para apoyar mi cuerpo?">
+            <div class="mood-emoji">😵‍💫</div>
+            <div class="mood-text">Me siento cansado todo el tiempo</div>
+          </article>
+          <article class="mood-card" role="button" tabindex="0" data-prefill="Ando con estrés y tensión. Quiero algo natural para sentirme más tranquilo.">
+            <div class="mood-emoji">😮‍💨</div>
+            <div class="mood-text">Ando con estrés y tensión</div>
+          </article>
+          <article class="mood-card" role="button" tabindex="0" data-prefill="No descanso bien. Quiero apoyar mi cuerpo para dormir mejor.">
+            <div class="mood-emoji">😴</div>
+            <div class="mood-text">No descanso bien</div>
+          </article>
+          <article class="mood-card" role="button" tabindex="0" data-prefill="Traigo digestión pesada e inflamación. ¿Qué me recomiendas?">
+            <div class="mood-emoji">🫃</div>
+            <div class="mood-text">Digestión pesada / inflamación</div>
+          </article>
+          <article class="mood-card" role="button" tabindex="0" data-prefill="Quiero más energía, pero sin café fuerte. ¿Qué opción natural hay?">
+            <div class="mood-emoji">⚡</div>
+            <div class="mood-text">Quiero más energía</div>
+          </article>
+          <article class="mood-card" role="button" tabindex="0" data-prefill="Quiero algo natural para sentirme mejor en general. ¿Cómo me orientas?">
+            <div class="mood-emoji">🌿</div>
+            <div class="mood-text">Busco algo natural (sin tanta química)</div>
+          </article>
+        </div>
+        <div class="mood-disclaimer">Suplementos nutricionales. Sin promesas milagrosas. No sustituye consejo médico.</div>
+      </section>
+
+      <section class="why-section" aria-label="Por qué existimos">
+        <h2>¿Por qué existe INFINIUM?</h2>
+        <p>
+          Hay personas que duermen y despiertan cansadas.
+          Cansadas de escuchar que la respuesta es otra pastilla.
+          En INFINIUM no prometemos milagros ni más años de vida:
+          te ayudamos a construir una mejor calidad de vida con nutrición consciente,
+          conocimiento y acompañamiento inteligente para que sientas la diferencia.
+        </p>
+      </section>
+
+      <div class="cards-grid" aria-label="Beneficios clave">
+        <article class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Asesoría rápida</h3>
+          <p>Te guiamos a elegir según tu objetivo.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">🌱</div>
+          <h3>Nutrición con intención</h3>
+          <p>Aprende qué estás nutriendo y por qué se siente diferente.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">📲</div>
+          <h3>Embudo simple por QR</h3>
+          <p>Escanea, mira, pregunta, decide. Sin complicarte.</p>
+        </article>
+      </div>
+
+      <section class="why-section" aria-label="Qué puedes preguntar">
+        <h2>¿Qué puedes preguntar al asistente?</h2>
+        <p>Prueba con ejemplos rápidos y obtén orientación inmediata:</p>
+        <div class="quick-selector" style="margin-top:14px;" aria-label="Ejemplos de preguntas">
+          <button class="quick-button" type="button" data-topic="energía">“Necesito más energía sin cafeína extra.”</button>
+          <button class="quick-button" type="button" data-topic="sueño">“Me cuesta dormir profundo, ¿qué recomiendan?”</button>
+          <button class="quick-button" type="button" data-topic="estrés">“Busco algo para manejar el estrés del día.”</button>
+          <button class="quick-button" type="button" data-topic="digestión y peso">“Quiero mejorar digestión y controlar peso.”</button>
+        </div>
+      </section>
+ main
     </div>
   </div>
 
@@ -738,7 +940,12 @@
     const whatsappEsBtn = document.getElementById('btn-whatsapp-es');
     const whatsappEnBtn = document.getElementById('btn-whatsapp-en');
     const quickButtons = Array.from(document.querySelectorAll('.quick-button'));
+ codex/improve-landing-page-aesthetics-and-ux-appo5l
     const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
+=======
+    const moodCards = Array.from(document.querySelectorAll('.mood-card'));
+    const moodChatButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
+ main
     const chatToggle = document.getElementById('chatToggle');
     const chatModal = document.getElementById('chatModal');
     const chatMessages = document.getElementById('chatMessages');
@@ -1032,6 +1239,29 @@
       button.addEventListener('click', () => {
         openChatAndFocus();
         trackEvent('chat_open_click', { label: button.textContent?.trim() || '' });
+      });
+    });
+
+    moodCards.forEach((card) => {
+      const handleMoodSelect = () => {
+        const message = card.dataset.prefill || '';
+        prefillChatInput(message);
+        trackEvent('mood_card_click', { message });
+      };
+
+      card.addEventListener('click', handleMoodSelect);
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleMoodSelect();
+        }
+      });
+    });
+
+    moodChatButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        openChatAndFocus();
+        trackEvent('mood_quick_action_click', { label: button.textContent?.trim() || '' });
       });
     });
 
