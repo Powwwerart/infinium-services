@@ -1,3 +1,5 @@
+// commandChain.js
+
 export const MIN_PRICES_USD = {
   'V-ITAREN': 37.50,
   'V-ORGANEX': 37.50,
@@ -22,16 +24,18 @@ export const MIN_PRICES_USD = {
   'V-TE DETOX': 17.00
 };
 
+// Labels ya listos para texto humano (evita "rutinas de energía" raro)
 const CATEGORY_LABELS = {
   energia: 'energía',
-  estres_descanso: 'estrés / descanso',
+  estres_descanso: 'estrés y descanso',
   digestion: 'digestión',
   enfoque: 'enfoque',
-  peso: 'peso',
+  peso: 'control de peso',
   articulaciones: 'articulaciones',
   bienestar: 'bienestar general'
 };
 
+// Respuestas fijas (sin variaciones)
 const CATEGORY_RESPONSES = {
   energia: { product: 'VITALPRO', phrase: 'aporta energía funcional' },
   estres_descanso: { product: 'V-ITALAY', phrase: 'contribuye a la relajación y descanso' },
@@ -54,15 +58,16 @@ export const detectCategory = (userInput = '') => {
   const normalized = normalizeInput(userInput);
   if (!normalized) return null;
 
+  // Nota: “bienestar general” no hace falta como keyword separada si ya usamos “bienestar”
   const rules = [
+    { category: 'escaneo', keywords: ['escaneo'] },
     { category: 'estres_descanso', keywords: ['estres', 'descanso'] },
     { category: 'energia', keywords: ['energia'] },
     { category: 'digestion', keywords: ['digest'] },
     { category: 'enfoque', keywords: ['enfoque', 'concentr'] },
     { category: 'peso', keywords: ['peso', 'metabol'] },
     { category: 'articulaciones', keywords: ['articul'] },
-    { category: 'bienestar', keywords: ['bienestar', 'bienestar general'] },
-    { category: 'escaneo', keywords: ['escaneo'] }
+    { category: 'bienestar', keywords: ['bienestar'] }
   ];
 
   for (const rule of rules) {
@@ -76,22 +81,25 @@ export const detectCategory = (userInput = '') => {
 
 export const formatUSD = (amount) => {
   if (typeof amount !== 'number' || Number.isNaN(amount)) return null;
-  return `USD ${amount.toFixed(2)}`;
+  return `$${amount.toFixed(2)} USD`;
 };
 
 export const getMinPriceUSD = (productName) => {
   if (!productName) return null;
-  return MIN_PRICES_USD[productName] ?? null;
+  const price = MIN_PRICES_USD[productName];
+  return (typeof price === 'number') ? price : null;
 };
 
 export const mapCategoryToResponse = (category) => {
   if (!category) return null;
   if (category === 'escaneo') return { type: 'scan' };
+
   const mapping = CATEGORY_RESPONSES[category];
   if (!mapping) return null;
 
   return {
-    categoryLabel: CATEGORY_LABELS[category],
+    type: 'product',
+    categoryLabel: CATEGORY_LABELS[category] || category,
     product: mapping.product,
     phrase: mapping.phrase
   };
@@ -116,37 +124,39 @@ export const buildScanResponse = () => (
 );
 
 export const buildProductResponse = ({ categoryLabel, product, phrase, price }) => (
-  `Para rutinas de ${categoryLabel}, suele encajar bien ${product}.\n`
-  + `Es un suplemento alimenticio que ${phrase}.\n`
-  + `Precio de referencia desde: ${price}. (Puede variar al entrar a la tienda).\n`
+  `Para ${categoryLabel}, suele encajar bien ${product}.\n\n`
+  + `Es un suplemento alimenticio que ${phrase}.\n\n`
+  + `Precio de referencia desde: ${price}. (Puede variar al entrar a la tienda).\n\n`
   + '¿Cómo te gustaría continuar?\n'
   + '- Comprar ahora\n'
   + '- Hablar con un asesor por WhatsApp\n'
-  + '- Quiero algo más personalizado (escaneo)\n'
+  + '- Quiero algo más personalizado (escaneo)\n\n'
   + 'Este producto no es un medicamento.\n'
   + 'El consumo es responsabilidad de quien lo recomienda y de quien lo usa.'
 );
 
 export const handleUserMessage = (userMessage = '') => {
   const category = detectCategory(userMessage);
-  if (!category) return null;
+
+  // ✅ IMPORTANTE: si no detecta, NO regreses null (evita "no contestó nada")
+  if (!category) return buildMenuResponse();
 
   if (category === 'escaneo') {
     return buildScanResponse();
   }
 
   const mapped = mapCategoryToResponse(category);
-  if (!mapped || !mapped.product) return null;
-
-  const price = getMinPriceUSD(mapped.product);
-  if (price === null) {
-    // Si falta el precio, mostramos menú y evitamos responder con producto.
+  if (!mapped || mapped.type !== 'product' || !mapped.product) {
     return buildMenuResponse();
   }
 
-  const formattedPrice = formatUSD(price);
+  const priceNumber = getMinPriceUSD(mapped.product);
+  if (priceNumber === null) {
+    return buildMenuResponse();
+  }
+
+  const formattedPrice = formatUSD(priceNumber);
   if (!formattedPrice) {
-    // Si no hay precio formateable, mostramos menú para continuar.
     return buildMenuResponse();
   }
 
