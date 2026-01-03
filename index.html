@@ -174,7 +174,7 @@
     .quick-selector {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
       position: relative;
       z-index: 2;
@@ -426,7 +426,7 @@
     }
     @media (max-width: 480px) {
       .chat-toggle { min-width: 0; padding: 12px; }
-      .quick-selector { grid-template-columns: 1fr; }
+      .quick-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -451,14 +451,16 @@
             <button class="quick-button" type="button" data-prefill="Quiero apoyo para peso.">Peso</button>
             <button class="quick-button" type="button" data-prefill="Necesito apoyo para articulaciones.">Articulaciones</button>
             <button class="quick-button" type="button" data-prefill="Busco bienestar general.">Bienestar general</button>
-            <button class="quick-button" type="button" data-prefill="Quiero un escaneo rápido.">Escaneo</button>
+            <button class="quick-button" type="button" data-prefill="Busco apoyo para defensas.">Defensas</button>
+            <button class="quick-button" type="button" data-prefill="Quiero apoyo para piel y colágeno.">Piel / colágeno</button>
+            <button class="quick-button" type="button" data-prefill="Busco un detox suave.">Detox suave</button>
           </div>
 
           <div class="disclaimer">No realizamos diagnósticos.
 Nuestros productos son suplementos alimenticios y se utilizan como acompañamiento.</div>
 
           <div class="secondary-actions" aria-label="Accesos secundarios">
-            <button class="quick-button" type="button" data-prefill="Quiero hablar con un asesor por WhatsApp.">Hablar con un asesor</button>
+            <button class="quick-button" type="button" data-whatsapp="19565505115">Hablar con un asesor</button>
             <button class="quick-button" type="button" data-prefill="Quiero un escaneo personalizado.">Escaneo personalizado</button>
           </div>
         </div>
@@ -742,7 +744,12 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       if (!category) return [];
       return [
         { label: 'Comprar ahora', type: 'send_message', message: 'Comprar ahora' },
-        { label: 'WhatsApp', type: 'send_message', message: 'Hablar con un asesor por WhatsApp' },
+        {
+          label: 'WhatsApp',
+          type: 'whatsapp',
+          phone: '19565505115',
+          text: 'Hola, vengo de INFINIUM...'
+        },
         { label: 'Escaneo', type: 'send_message', message: 'Quiero algo más personalizado (escaneo)' }
       ];
     };
@@ -773,7 +780,7 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       const lockedReply = typeof handleUserMessageFn === 'function' ? handleUserMessageFn(userText) : null;
       console.log('LOCKED RESPONSE:', lockedReply);
 
-      if (typeof lockedReply === 'string') {
+      if (typeof lockedReply === 'string' && lockedCategory && lockedCategory !== 'menu') {
         renderBotMessage(lockedReply, buildLockedActions(lockedCategory));
         setChatLoading(false);
         return;
@@ -824,6 +831,15 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
 
     quickButtons.forEach((button) => {
       button.addEventListener('click', () => {
+        const whatsappPhone = button.dataset.whatsapp || '';
+        if (whatsappPhone) {
+          const phoneDigits = String(whatsappPhone).replace(/\D/g, '');
+          const waUrl = `https://wa.me/${phoneDigits}`;
+          sendCtaClick('whatsapp', waUrl);
+          window.open(waUrl, '_blank', 'noopener,noreferrer');
+          trackEvent('quick_topic_click', { label: (button.textContent || '').trim() });
+          return;
+        }
         const suggestion = button.dataset.prefill || '';
         if (button.closest('.quick-selector')) {
           openChatAndFocus();
