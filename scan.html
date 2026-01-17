@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="icon"
+    href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%2300e6c7"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="%230b0b0f" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">VP</text></svg>'
+  />
+  <title>Agenda tu escaneo | INFINIUM</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0 16px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background: #05070f;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #e2e8f0;
+      text-align: center;
+      box-sizing: border-box;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.18), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(139, 92, 246, 0.18), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(231, 200, 116, 0.14), transparent 45%);
+      animation: ambientShift 16s ease-in-out infinite;
+    }
+
+    body::after {
+      background: linear-gradient(140deg, rgba(2, 6, 23, 0.85) 0%, rgba(8, 12, 32, 0.92) 45%, rgba(7, 11, 26, 0.95) 100%);
+    }
+
+    .page {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      width: min(860px, 100%);
+      padding: 72px 32px 48px;
+      border-radius: 28px;
+      background: rgba(8, 14, 28, 0.72);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      margin: 0 0 12px;
+      letter-spacing: 0.4px;
+      line-height: 1.15;
+      background: linear-gradient(120deg, #e2e8f0 0%, #67e8f9 45%, #c4b5fd 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
+    }
+
+    p {
+      margin: 0 auto 20px;
+      max-width: 620px;
+      line-height: 1.55;
+      color: rgba(226, 232, 240, 0.88);
+    }
+
+    .disclaimer {
+      font-size: 0.9rem;
+      color: rgba(226, 232, 240, 0.7);
+      margin-bottom: 28px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 26px;
+      border-radius: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      min-height: 56px;
+      cursor: pointer;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.9) 0%, rgba(59, 130, 246, 0.9) 45%, rgba(168, 85, 247, 0.9) 100%);
+      color: #020617;
+      box-shadow: 0 22px 42px rgba(34, 211, 238, 0.32);
+      border-color: rgba(34, 211, 238, 0.5);
+    }
+
+    .cta-secondary {
+      background: rgba(15, 23, 42, 0.6);
+      color: #e2e8f0;
+      border-color: rgba(148, 163, 184, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(34, 211, 238, 0.28), 0 0 18px rgba(139, 92, 246, 0.2);
+    }
+
+    .back-link {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.35);
+    }
+
+    @keyframes ambientShift {
+      0%,100% { opacity: 0.9; transform: translateY(0); }
+      50% { opacity: 0.6; transform: translateY(-8px); }
+    }
+
+    @media (max-width: 640px) {
+      .content { padding: 56px 20px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="content">
+      <h1>Agenda tu escaneo</h1>
+      <p>Conoce tu punto de partida con una herramienta pensada para orientación y hábitos. Te ayudamos a identificar el siguiente paso adecuado.</p>
+      <p class="disclaimer">Herramienta de orientación. No diagnostica.</p>
+
+      <div class="cta-row">
+        <a class="cta-button cta-primary" id="scheduleButton" href="https://calendly.com/REEMPLAZAR" rel="noopener">Agendar ahora</a>
+        <a class="cta-button cta-secondary" id="whatsAppButton" href="https://wa.me/19565505115?text=Hola%2C%20vengo%20de%20INFINIUM.%20Quiero%20agendar%20un%20escaneo." rel="noopener">Hablar con un asesor</a>
+      </div>
+
+      <a class="back-link" href="/">Volver al inicio</a>
+    </div>
+  </div>
+
+  <script>
+    const SCHEDULE_URL = new URLSearchParams(location.search).get('cal') || 'https://calendly.com/REEMPLAZAR';
+    const scheduleButton = document.getElementById('scheduleButton');
+    if (scheduleButton) {
+      scheduleButton.href = SCHEDULE_URL;
+    }
+
+    const trackEvent = (eventName, extra = {}) => {
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, extra);
+      }
+    };
+
+    scheduleButton?.addEventListener('click', () => {
+      trackEvent('scan_schedule_click', { url: SCHEDULE_URL });
+    });
+  </script>
+</body>
+</html>
