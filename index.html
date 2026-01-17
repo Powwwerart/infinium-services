@@ -67,6 +67,34 @@
 
     .page { width: 100%; display: flex; justify-content: center; }
 
+    .floating-orb {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: screen;
+    }
+
+    .orb-one {
+      top: 8%;
+      left: 8%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.35) 0%, transparent 65%);
+      animation: floatOrbOne 18s ease-in-out infinite;
+      transform: translate3d(calc(var(--mx) * 0.2), calc(var(--my) * 0.2), 0);
+    }
+
+    .orb-two {
+      bottom: 6%;
+      right: 6%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 65%);
+      animation: floatOrbTwo 20s ease-in-out infinite;
+      transform: translate3d(calc(var(--mx) * -0.18), calc(var(--my) * -0.18), 0);
+    }
+
     .content {
       position: relative;
       width: min(1080px, 100%);
@@ -79,7 +107,9 @@
       backdrop-filter: blur(14px);
       z-index: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
+      gap: 36px;
       justify-content: center;
     }
 
@@ -128,10 +158,22 @@
     .cta-row {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
       margin-top: 10px;
       position: relative;
       z-index: 55;
     }
+
+    .hero-entry {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: heroIn 0.9s ease forwards;
+    }
+
+    .hero-entry.delay-1 { animation-delay: 0.05s; }
+    .hero-entry.delay-2 { animation-delay: 0.12s; }
+    .hero-entry.delay-3 { animation-delay: 0.2s; }
 
     .cta-primary, .cta-secondary {
       display: inline-flex;
@@ -175,21 +217,41 @@
       box-shadow: 0 14px 28px rgba(2, 6, 23, 0.35), 0 0 16px rgba(139, 92, 246, 0.2);
     }
 
-    .quick-selector {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      position: relative;
+    .focus-section,
+    .next-steps {
+      width: min(900px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: center;
       z-index: 2;
     }
 
-    .quick-button {
+    .section-title {
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    .section-subtitle {
+      margin: 0 auto;
+      max-width: 640px;
+      color: rgba(226, 232, 240, 0.8);
+      line-height: 1.5;
+    }
+
+    .pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .pill-button {
       border: 1px solid rgba(148, 163, 184, 0.3);
       background: rgba(15, 23, 42, 0.55);
       color: #e2e8f0;
-      padding: 14px 12px;
-      border-radius: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
       cursor: pointer;
       font-weight: 700;
       transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
@@ -197,31 +259,66 @@
       box-shadow: none;
     }
 
-    .quick-button:hover {
+    .pill-button:hover {
       transform: translateY(-1px);
       background: rgba(34, 211, 238, 0.12);
       box-shadow: 0 12px 24px rgba(15, 23, 42, 0.35), 0 0 14px rgba(34, 211, 238, 0.16);
     }
 
-    .disclaimer {
-      margin-top: 16px;
-      color: rgba(226, 232, 240, 0.6);
-      font-size: 0.82rem;
-      line-height: 1.4;
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
     }
 
-    .secondary-actions {
-      margin-top: 22px;
+    .step-card {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: left;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       gap: 12px;
-      flex-wrap: wrap;
+      box-shadow: 0 16px 28px rgba(2, 6, 23, 0.35);
     }
 
-    .secondary-actions .quick-button {
-      background: rgba(148, 163, 184, 0.12);
-      border-color: rgba(148, 163, 184, 0.25);
-      font-weight: 600;
+    .step-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .step-card p {
+      margin: 0;
+      color: rgba(226, 232, 240, 0.72);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .step-card button,
+    .step-card a {
+      align-self: flex-start;
+    }
+
+    .step-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 214, 0.35);
+      background: rgba(34, 197, 214, 0.12);
+      color: #e2e8f0;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+      text-decoration: none;
+    }
+
+    .step-button:hover {
+      transform: translateY(-1px);
+      background: rgba(34, 197, 214, 0.2);
+      box-shadow: 0 12px 24px rgba(2, 6, 23, 0.35);
     }
 
     .reveal {
@@ -429,6 +526,18 @@
       0%,100% { transform: translate3d(0, 0, 0); opacity: 0.8; }
       50% { transform: translate3d(10px, -12px, 0); opacity: 1; }
     }
+    @keyframes floatOrbOne {
+      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.6; }
+      50% { transform: translate3d(20px, -14px, 0); opacity: 0.9; }
+    }
+    @keyframes floatOrbTwo {
+      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.55; }
+      50% { transform: translate3d(-18px, 12px, 0); opacity: 0.85; }
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     @keyframes pulseRing {
       0%,100% { box-shadow: 0 12px 24px rgba(34,211,238,0.32); }
       50% { box-shadow: 0 18px 36px rgba(34,211,238,0.45); }
@@ -441,11 +550,11 @@
     @media (max-width: 760px) {
       .content { padding: 64px 20px 32px; }
       .cta-row { flex-direction: column; align-items: center; }
-      .quick-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .step-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .chat-toggle { min-width: 0; padding: 12px; }
-      .quick-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pill-grid { gap: 10px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -455,39 +564,59 @@
 </head>
 
 <body>
+  <div class="floating-orb orb-one" aria-hidden="true"></div>
+  <div class="floating-orb orb-two" aria-hidden="true"></div>
   <div class="page">
     <div class="content">
       <div class="hero">
         <div>
-          <h1 class="reveal">Encuentra la opción que mejor encaje con tu rutina.</h1>
-          <p class="subtitle reveal">Orientación clara en suplementos y bienestar, sin diagnósticos.</p>
+          <h1 class="hero-entry delay-1">Encuentra la opción que mejor encaje con tu rutina.</h1>
+          <p class="subtitle hero-entry delay-2">Orientación clara en suplementos y bienestar, sin diagnósticos.</p>
 
-          <div class="cta-row reveal" aria-label="Acciones principales">
-            <button class="cta-primary" type="button" data-chat-open="true">¿Qué necesitas ahora?</button>
-          </div>
-
-          <div class="quick-selector reveal" aria-label="Opciones rápidas">
-            <button class="quick-button" type="button" data-prefill="Busco apoyo para energía.">Energía</button>
-            <button class="quick-button" type="button" data-prefill="Quiero apoyo para estrés y descanso.">Estrés / descanso</button>
-            <button class="quick-button" type="button" data-prefill="Necesito apoyo para digestión.">Digestión</button>
-            <button class="quick-button" type="button" data-prefill="Busco mejorar mi enfoque.">Enfoque</button>
-            <button class="quick-button" type="button" data-prefill="Quiero apoyo para peso.">Peso</button>
-            <button class="quick-button" type="button" data-prefill="Necesito apoyo para articulaciones.">Articulaciones</button>
-            <button class="quick-button" type="button" data-prefill="Busco bienestar general.">Bienestar general</button>
-            <button class="quick-button" type="button" data-prefill="Busco apoyo para defensas.">Defensas</button>
-            <button class="quick-button" type="button" data-prefill="Quiero apoyo para piel y colágeno.">Piel / colágeno</button>
-            <button class="quick-button" type="button" data-prefill="Busco un detox suave.">Detox suave</button>
-          </div>
-
-          <div class="disclaimer">No realizamos diagnósticos.
-Nuestros productos son suplementos alimenticios y se utilizan como acompañamiento.</div>
-
-          <div class="secondary-actions reveal" aria-label="Accesos secundarios">
-            <button class="quick-button" type="button" data-whatsapp="19565505115">Hablar con un asesor</button>
-            <button class="quick-button" type="button" data-open-url="/scan.html">Escaneo (agendar)</button>
+          <div class="cta-row hero-entry delay-3" aria-label="Acciones principales">
+            <button class="cta-primary" type="button" data-action="chat_prefill" data-message="Quiero orientación rápida">Orientación rápida</button>
+            <button class="cta-secondary" type="button" data-action="scroll_to" data-target="#categorias">Ver productos</button>
+            <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Escaneo (agendar)</button>
           </div>
         </div>
       </div>
+
+      <section id="categorias" class="focus-section reveal" aria-label="Elige tu enfoque">
+        <h2 class="section-title">Elige tu enfoque</h2>
+        <p class="section-subtitle">Selecciona una categoría para recibir una recomendación rápida en el chat.</p>
+        <div class="pill-grid">
+          <button class="pill-button" type="button" data-action="chat_category" data-category="energia" data-label="energía">Energía</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="estres" data-label="estrés">Estrés</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="digestion" data-label="digestión">Digestión</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="enfoque" data-label="enfoque">Enfoque</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="peso" data-label="peso">Peso</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="articulaciones" data-label="articulaciones">Articulaciones</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="bienestar-general" data-label="bienestar general">Bienestar general</button>
+          <button class="pill-button" type="button" data-action="open_url" data-url="/scan.html">Escaneo</button>
+        </div>
+      </section>
+
+      <section class="next-steps reveal" aria-label="Próximo paso">
+        <h2 class="section-title">Próximo paso</h2>
+        <p class="section-subtitle">Elige el camino que mejor se ajuste a tu ritmo. Sin promesas médicas, solo guía clara.</p>
+        <div class="step-grid">
+          <div class="step-card">
+            <h3>Comprar directo</h3>
+            <p>Recibe una guía breve en el chat y decide el siguiente paso cuando estés listo.</p>
+            <button class="step-button" type="button" data-action="chat_prefill" data-message="Quiero comprar directo">Ir al chat</button>
+          </div>
+          <div class="step-card">
+            <h3>Hablar por WhatsApp</h3>
+            <p>Conecta con un asesor para resolver dudas de forma rápida y humana.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="https://wa.me/19565505115?text=Hola%2C%20quiero%20orientaci%C3%B3n%20sobre%20suplementos.">Abrir WhatsApp</button>
+          </div>
+          <div class="step-card">
+            <h3>Agendar escaneo</h3>
+            <p>Agenda una sesión de orientación para conocer tu punto de partida.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar ahora</button>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
@@ -565,7 +694,7 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
     const chatStatus = document.getElementById('chatStatus');
     const chatSendButton = document.querySelector('.chat-send');
 
-    const quickButtons = Array.from(document.querySelectorAll('.quick-button'));
+    const actionButtons = Array.from(document.querySelectorAll('[data-action]'));
     const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
     const moodCards = Array.from(document.querySelectorAll('.mood-card')); // (si no existen, queda [])
     const moodChatButtons = Array.from(document.querySelectorAll('[data-mood-chat-open="true"]')); // opcional
@@ -679,57 +808,6 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
     }
 
     // ---- Chat UI ----
-    const appendMessage = (text, type = 'bot', actions = []) => {
-      if (!chatMessages) return;
-
-      const div = document.createElement('div');
-      div.className = `chat-message ${type}`;
-      div.textContent = text;
-      chatMessages.appendChild(div);
-
-      if (Array.isArray(actions) && actions.length > 0) {
-        const actionsContainer = document.createElement('div');
-        actionsContainer.className = 'chat-actions';
-
-        actions.forEach((action) => {
-          const actionBtn = document.createElement('button');
-          actionBtn.type = 'button';
-          actionBtn.className = 'chat-action-button';
-          actionBtn.textContent = action.label || 'Acción';
-
-          actionBtn.addEventListener('click', () => {
-            if (action.type === 'open_url' && action.url) {
-              sendCtaClick('open_url', action.url);
-              window.open(action.url, '_blank', 'noopener,noreferrer');
-              return;
-            }
-            if (action.type === 'whatsapp' && action.phone) {
-              const phoneDigits = String(action.phone || '').replace(/\D/g, '');
-              const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(action.text || '')}`;
-              sendCtaClick('whatsapp', waUrl);
-              window.open(waUrl, '_blank', 'noopener,noreferrer');
-              return;
-            }
-            if (action.type === 'send_message' && action.message) {
-              openChatAndFocus();
-              processUserMessage(action.message, { quick: true });
-              return;
-            }
-            if (action.url) {
-              sendCtaClick('action', action.url);
-              window.open(action.url, '_blank', 'noopener,noreferrer');
-            }
-          });
-
-          actionsContainer.appendChild(actionBtn);
-        });
-
-        chatMessages.appendChild(actionsContainer);
-      }
-
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
-
     const setChatLoading = (isLoading) => {
       if (chatSendButton) chatSendButton.disabled = isLoading;
       if (chatInput) chatInput.disabled = isLoading;
@@ -752,6 +830,67 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       } else if (chatInput) {
         chatInput.focus();
       }
+    };
+
+    const openUrl = (url) => {
+      if (!url) return;
+      const isInternal = url.startsWith('/') || url.startsWith(window.location.origin);
+      if (isInternal) {
+        window.location.href = url;
+      } else {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    };
+
+    const appendMessage = (text, type = 'bot', actions = []) => {
+      if (!chatMessages) return;
+
+      const div = document.createElement('div');
+      div.className = `chat-message ${type}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+
+      if (Array.isArray(actions) && actions.length > 0) {
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'chat-actions';
+
+        actions.forEach((action) => {
+          const actionBtn = document.createElement('button');
+          actionBtn.type = 'button';
+          actionBtn.className = 'chat-action-button';
+          actionBtn.textContent = action.label || 'Acción';
+
+          actionBtn.addEventListener('click', () => {
+            if (action.type === 'open_url' && action.url) {
+              sendCtaClick('open_url', action.url);
+              openUrl(action.url);
+              return;
+            }
+            if (action.type === 'whatsapp' && action.phone) {
+              const phoneDigits = String(action.phone || '').replace(/\D/g, '');
+              const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(action.text || '')}`;
+              sendCtaClick('whatsapp', waUrl);
+              window.open(waUrl, '_blank', 'noopener,noreferrer');
+              return;
+            }
+            if (action.type === 'send_message' && action.message) {
+              openChatAndFocus();
+              processUserMessage(action.message, { quick: true });
+              return;
+            }
+            if (action.url) {
+              sendCtaClick('action', action.url);
+              openUrl(action.url);
+            }
+          });
+
+          actionsContainer.appendChild(actionBtn);
+        });
+
+        chatMessages.appendChild(actionsContainer);
+      }
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
     const prefillChatInput = (message) => {
@@ -864,31 +1003,34 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
       });
     }
 
-    quickButtons.forEach((button) => {
+    actionButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const openUrl = button.dataset.openUrl || '';
-        if (openUrl) {
-          trackEvent('scan_open_click', { url: openUrl });
-          window.location.href = openUrl;
+        const action = button.dataset.action;
+        if (action === 'chat_prefill') {
+          prefillChatInput(button.dataset.message || '');
+          trackEvent('chat_prefill_click', { message: button.dataset.message || '' });
           return;
         }
-        const whatsappPhone = button.dataset.whatsapp || '';
-        if (whatsappPhone) {
-          const phoneDigits = String(whatsappPhone).replace(/\D/g, '');
-          const waUrl = `https://wa.me/${phoneDigits}`;
-          sendCtaClick('whatsapp', waUrl);
-          window.open(waUrl, '_blank', 'noopener,noreferrer');
-          trackEvent('quick_topic_click', { label: (button.textContent || '').trim() });
-          return;
-        }
-        const suggestion = button.dataset.prefill || '';
-        if (button.closest('.quick-selector')) {
+        if (action === 'chat_category') {
+          const label = button.dataset.label || (button.textContent || '').trim().toLowerCase();
+          const message = `Quiero ${label}`;
           openChatAndFocus();
-          processUserMessage(suggestion, { quick: true });
-        } else {
-          prefillChatInput(suggestion);
+          processUserMessage(message, { quick: true });
+          trackEvent('chat_category_click', { category: button.dataset.category || label });
+          return;
         }
-        trackEvent('quick_topic_click', { label: (button.textContent || '').trim() });
+        if (action === 'scroll_to') {
+          const target = document.querySelector(button.dataset.target || '');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            trackEvent('scroll_to_section', { target: button.dataset.target });
+          }
+          return;
+        }
+        if (action === 'open_url') {
+          openUrl(button.dataset.url || '');
+          trackEvent('open_url_click', { url: button.dataset.url || '' });
+        }
       });
     });
 
@@ -954,8 +1096,8 @@ Nuestros productos son suplementos alimenticios y se utilizan como acompañamien
 
       window.addEventListener('mousemove', (event) => {
         const { innerWidth, innerHeight } = window;
-        latestX = ((event.clientX / innerWidth) - 0.5) * 18;
-        latestY = ((event.clientY / innerHeight) - 0.5) * 18;
+        latestX = ((event.clientX / innerWidth) - 0.5) * 10;
+        latestY = ((event.clientY / innerHeight) - 0.5) * 10;
         if (rafId) return;
         rafId = window.requestAnimationFrame(applyParallax);
       }, { passive: true });
