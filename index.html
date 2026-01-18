@@ -64,6 +64,34 @@
 
     .page { width: 100%; display: flex; justify-content: center; }
 
+    .floating-orb {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: screen;
+    }
+
+    .orb-one {
+      top: 8%;
+      left: 8%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.35) 0%, transparent 65%);
+      animation: floatOrbOne 18s ease-in-out infinite;
+      transform: translate3d(calc(var(--mx) * 0.2), calc(var(--my) * 0.2), 0);
+    }
+
+    .orb-two {
+      bottom: 6%;
+      right: 6%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 65%);
+      animation: floatOrbTwo 20s ease-in-out infinite;
+      transform: translate3d(calc(var(--mx) * -0.18), calc(var(--my) * -0.18), 0);
+    }
+
     .content {
       position: relative;
       width: min(1080px, 100%);
@@ -191,7 +219,11 @@
     .section-subtitle {
       margin: 0 auto;
       max-width: 640px;
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       color: rgba(255, 255, 255, 0.72);
+
+      color: rgba(226, 232, 240, 0.8);
+main
       line-height: 1.5;
     }
 
@@ -203,9 +235,15 @@
     }
 
     .pill-button {
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(15, 20, 28, 0.55);
       color: rgba(255, 255, 255, 0.9);
+
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.55);
+      color: #e2e8f0;
+main
       padding: 12px 18px;
       border-radius: 999px;
       cursor: pointer;
@@ -228,15 +266,24 @@
     }
 
     .step-card {
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       background: rgba(15, 20, 28, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.08);
+
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+main
       border-radius: 18px;
       padding: 18px;
       text-align: left;
       display: flex;
       flex-direction: column;
       gap: 12px;
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       box-shadow: none;
+
+      box-shadow: 0 16px 28px rgba(2, 6, 23, 0.35);
+main
     }
 
     .step-card h3 {
@@ -246,7 +293,11 @@
 
     .step-card p {
       margin: 0;
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       color: rgba(255, 255, 255, 0.7);
+
+      color: rgba(226, 232, 240, 0.72);
+main
       font-size: 0.95rem;
       line-height: 1.45;
     }
@@ -262,9 +313,15 @@
       gap: 8px;
       padding: 10px 16px;
       border-radius: 999px;
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       border: 1px solid rgba(33, 212, 194, 0.4);
       background: rgba(33, 212, 194, 0.12);
       color: rgba(255, 255, 255, 0.9);
+
+      border: 1px solid rgba(34, 197, 214, 0.35);
+      background: rgba(34, 197, 214, 0.12);
+      color: #e2e8f0;
+main
       font-weight: 700;
       cursor: pointer;
       transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
@@ -273,8 +330,13 @@
 
     .step-button:hover {
       transform: translateY(-1px);
+codex/implement-ui/ux-updates-in-frontend-lcl51i
       background: rgba(33, 212, 194, 0.2);
       box-shadow: none;
+
+      background: rgba(34, 197, 214, 0.2);
+      box-shadow: 0 12px 24px rgba(2, 6, 23, 0.35);
+ main
     }
 
     .reveal {
@@ -478,9 +540,31 @@
       0%,100% { opacity: 0.9; transform: translateY(0); }
       50% { opacity: 0.6; transform: translateY(-8px); }
     }
+codex/implement-ui/ux-updates-in-frontend-lcl51i
     @keyframes heroIn {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
+
+    @keyframes floatOrb {
+      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.8; }
+      50% { transform: translate3d(10px, -12px, 0); opacity: 1; }
+    }
+    @keyframes floatOrbOne {
+      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.6; }
+      50% { transform: translate3d(20px, -14px, 0); opacity: 0.9; }
+    }
+    @keyframes floatOrbTwo {
+      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.55; }
+      50% { transform: translate3d(-18px, 12px, 0); opacity: 0.85; }
+    }
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseRing {
+      0%,100% { box-shadow: 0 12px 24px rgba(34,211,238,0.32); }
+      50% { box-shadow: 0 18px 36px rgba(34,211,238,0.45); }
+ main
     }
     @keyframes waveMove {
       0%,100% { transform: translateY(0); }
@@ -504,6 +588,8 @@
 </head>
 
 <body>
+  <div class="floating-orb orb-one" aria-hidden="true"></div>
+  <div class="floating-orb orb-two" aria-hidden="true"></div>
   <div class="page">
     <div class="content">
       <div class="hero">
@@ -512,15 +598,22 @@
           <p class="subtitle hero-entry delay-2">Orientación clara en suplementos y bienestar, sin diagnósticos.</p>
 
           <div class="cta-row hero-entry delay-3" aria-label="Acciones principales">
+codex/implement-ui/ux-updates-in-frontend-lcl51i
             <button class="cta-primary" type="button" data-action="chat_send" data-message="Quiero orientación rápida">Orientación rápida (IA)</button>
             <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
             <button class="cta-secondary" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero ayuda para elegir una opción.">Asesor por WhatsApp</button>
+
+            <button class="cta-primary" type="button" data-action="chat_prefill" data-message="Quiero orientación rápida">Orientación rápida</button>
+            <button class="cta-secondary" type="button" data-action="scroll_to" data-target="#categorias">Ver productos</button>
+            <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Escaneo (agendar)</button>
+ main
           </div>
         </div>
       </div>
 
       <section id="categorias" class="focus-section reveal" aria-label="Elige tu enfoque">
         <h2 class="section-title">Elige tu enfoque</h2>
+codex/implement-ui/ux-updates-in-frontend-lcl51i
         <p class="section-subtitle">Selecciona una categoría para recibir una orientación breve en el chat.</p>
         <div class="pill-grid">
           <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Energía">Energía</button>
@@ -530,6 +623,17 @@
           <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Peso">Peso</button>
           <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Articulaciones">Articulaciones</button>
           <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Bienestar general">Bienestar general</button>
+
+        <p class="section-subtitle">Selecciona una categoría para recibir una recomendación rápida en el chat.</p>
+        <div class="pill-grid">
+          <button class="pill-button" type="button" data-action="chat_category" data-category="energia" data-label="energía">Energía</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="estres" data-label="estrés">Estrés</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="digestion" data-label="digestión">Digestión</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="enfoque" data-label="enfoque">Enfoque</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="peso" data-label="peso">Peso</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="articulaciones" data-label="articulaciones">Articulaciones</button>
+          <button class="pill-button" type="button" data-action="chat_category" data-category="bienestar-general" data-label="bienestar general">Bienestar general</button>
+ main
           <button class="pill-button" type="button" data-action="open_url" data-url="/scan.html">Escaneo</button>
         </div>
       </section>
@@ -539,6 +643,7 @@
         <p class="section-subtitle">Elige el camino que mejor se ajuste a tu ritmo. Sin promesas médicas, solo guía clara.</p>
         <div class="step-grid">
           <div class="step-card">
+codex/implement-ui/ux-updates-in-frontend-lcl51i
             <h3>Compra ya</h3>
             <p>Explora el catálogo y elige lo que mejor se ajuste a tu rutina.</p>
             <button class="step-button" type="button" data-action="open_url" data-url="/shop">Ir a la tienda</button>
@@ -552,6 +657,21 @@
             <h3>Asesor WhatsApp</h3>
             <p>Atención directa para resolver dudas de forma rápida y humana.</p>
             <button class="step-button" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero ayuda para elegir una opción.">Escribir ahora</button>
+
+            <h3>Comprar directo</h3>
+            <p>Recibe una guía breve en el chat y decide el siguiente paso cuando estés listo.</p>
+            <button class="step-button" type="button" data-action="chat_prefill" data-message="Quiero comprar directo">Ir al chat</button>
+          </div>
+          <div class="step-card">
+            <h3>Hablar por WhatsApp</h3>
+            <p>Conecta con un asesor para resolver dudas de forma rápida y humana.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="https://wa.me/19565505115?text=Hola%2C%20quiero%20orientaci%C3%B3n%20sobre%20suplementos.">Abrir WhatsApp</button>
+          </div>
+          <div class="step-card">
+            <h3>Agendar escaneo</h3>
+            <p>Agenda una sesión de orientación para conocer tu punto de partida.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar ahora</button>
+main
           </div>
         </div>
       </section>
@@ -632,6 +752,10 @@
     const chatStatus = document.getElementById('chatStatus');
     const chatSendButton = document.querySelector('.chat-send');
 
+ codex/implement-ui/ux-updates-in-frontend-lcl51i
+
+    const actionButtons = Array.from(document.querySelectorAll('[data-action]'));
+ main
     const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
     const moodCards = Array.from(document.querySelectorAll('.mood-card')); // (si no existen, queda [])
     const moodChatButtons = Array.from(document.querySelectorAll('[data-mood-chat-open="true"]')); // opcional
@@ -779,6 +903,7 @@
       }
     };
 
+ codex/implement-ui/ux-updates-in-frontend-lcl51i
     const openWhatsApp = (phone, text = '') => {
       const phoneDigits = String(phone || '').replace(/\D/g, '');
       if (!phoneDigits) return;
@@ -787,6 +912,8 @@
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     };
 
+
+ main
     const appendMessage = (text, type = 'bot', actions = []) => {
       if (!chatMessages) return;
 
@@ -948,6 +1075,7 @@
       });
     }
 
+codex/implement-ui/ux-updates-in-frontend-lcl51i
     document.addEventListener('click', (event) => {
       const target = event.target.closest('[data-action]');
       if (!target) return;
@@ -974,6 +1102,37 @@
         openWhatsApp(target.dataset.phone, target.dataset.text || '');
         trackEvent('whatsapp_click', { phone: target.dataset.phone || '' });
       }
+
+    actionButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.action;
+        if (action === 'chat_prefill') {
+          prefillChatInput(button.dataset.message || '');
+          trackEvent('chat_prefill_click', { message: button.dataset.message || '' });
+          return;
+        }
+        if (action === 'chat_category') {
+          const label = button.dataset.label || (button.textContent || '').trim().toLowerCase();
+          const message = `Quiero ${label}`;
+          openChatAndFocus();
+          processUserMessage(message, { quick: true });
+          trackEvent('chat_category_click', { category: button.dataset.category || label });
+          return;
+        }
+        if (action === 'scroll_to') {
+          const target = document.querySelector(button.dataset.target || '');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            trackEvent('scroll_to_section', { target: button.dataset.target });
+          }
+          return;
+        }
+        if (action === 'open_url') {
+          openUrl(button.dataset.url || '');
+          trackEvent('open_url_click', { url: button.dataset.url || '' });
+        }
+      });
+main
     });
 
     chatOpenButtons.forEach((button) => {
@@ -1023,6 +1182,31 @@
       revealItems.forEach((item) => item.classList.add('is-visible'));
     }
 
+ codex/implement-ui/ux-updates-in-frontend-lcl51i
+
+    // ---- Parallax suave ----
+    const supportsFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    if (supportsFinePointer) {
+      let rafId = null;
+      let latestX = 0;
+      let latestY = 0;
+
+      const applyParallax = () => {
+        document.body.style.setProperty('--mx', `${latestX}px`);
+        document.body.style.setProperty('--my', `${latestY}px`);
+        rafId = null;
+      };
+
+      window.addEventListener('mousemove', (event) => {
+        const { innerWidth, innerHeight } = window;
+        latestX = ((event.clientX / innerWidth) - 0.5) * 10;
+        latestY = ((event.clientY / innerHeight) - 0.5) * 10;
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(applyParallax);
+      }, { passive: true });
+    }
+
+main
     // ---- Init ----
     appendMessage('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?', 'bot');
     checkBackend();
