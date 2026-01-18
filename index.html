@@ -3,12 +3,8 @@
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-883WEW264T"></script>
-  <script type="module">
-    import { detectCategory, handleUserMessage } from './js/commandChain.js';
-    // Exponer la cadena de comandos al scope global del chat.
+  <script>
     window.INFINIUM = window.INFINIUM || {};
-    window.INFINIUM.detectCategory = detectCategory;
-    window.INFINIUM.handleUserMessage = handleUserMessage;
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -37,6 +33,7 @@
       text-align: center;
       box-sizing: border-box;
       position: relative;
+      z-index: 0;
       overflow-x: hidden;
     }
 
@@ -46,7 +43,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: -2;
     }
 
     body::before {
@@ -730,6 +727,11 @@ main
   </div>
 
   <script>
+    console.log('[BOOT] INFINIUM landing loaded');
+    if (!document.querySelector('.content') || !document.querySelector('h1')) {
+      document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:10px;left:10px;z-index:9999;background:#111827;color:#fff;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12)">ERROR: DOM base no encontrado</div>');
+    }
+
     // ---- Configuración base ----
     const BACKEND_BASE_URL =
       window.NEXT_PUBLIC_BACKEND_BASE_URL ||
