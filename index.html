@@ -370,6 +370,44 @@
       max-height: 340px;
     }
 
+    .chat-quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 6px 12px 6px;
+    }
+
+    .quick-action {
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.6);
+      color: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+
+    .quick-action:hover { transform: translateY(-1px); background: rgba(34, 197, 214, 0.18); }
+
+    .chat-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chat-action {
+      border: 1px solid rgba(34, 197, 214, 0.35);
+      background: rgba(34, 197, 214, 0.1);
+      color: #e2e8f0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .chat-message {
       padding: 10px 12px;
       border-radius: 12px;
@@ -482,9 +520,9 @@
           <p class="subtitle hero-entry delay-2">Guía rápida en bienestar, sin diagnósticos ni lenguaje clínico.</p>
 
           <div class="cta-row hero-entry delay-3" aria-label="Acciones principales">
-            <button class="cta-primary" type="button" data-action="open_url" data-url="https://tu-enlace-de-compra.com">Comprar</button>
-            <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
-            <button class="cta-secondary" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero orientación sobre opciones disponibles.">Hablar por WhatsApp</button>
+            <button class="cta-primary" type="button" data-action="open_url" data-cta="buy">Comprar</button>
+            <button class="cta-secondary" type="button" data-action="whatsapp" data-cta="schedule" data-text="Hola, quiero orientación sobre suplementos de INFINEUM.">Agendar asesoría</button>
+            <button class="cta-secondary" type="button" data-action="whatsapp" data-cta="whatsapp">Hablar por WhatsApp</button>
           </div>
         </div>
       </div>
@@ -496,17 +534,17 @@
           <div class="step-card">
             <h3>Comprar directo</h3>
             <p>Ir al enlace de compra y cerrar tu pedido cuando estés listo.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="https://tu-enlace-de-compra.com">Ir a comprar</button>
+            <button class="step-button" type="button" data-action="open_url" data-cta="buy">Ir a comprar</button>
           </div>
           <div class="step-card">
-            <h3>Agendar escaneo</h3>
+            <h3>Agendar asesoría</h3>
             <p>Reserva una sesión de orientación para definir tu punto de partida.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
+            <button class="step-button" type="button" data-action="whatsapp" data-cta="schedule" data-text="Hola, quiero orientación sobre suplementos de INFINEUM.">Agendar asesoría</button>
           </div>
           <div class="step-card">
             <h3>WhatsApp directo</h3>
             <p>Conecta con un asesor y resuelve dudas rápidamente.</p>
-            <button class="step-button" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero asesoría rápida.">Abrir WhatsApp</button>
+            <button class="step-button" type="button" data-action="whatsapp" data-cta="whatsapp">Abrir WhatsApp</button>
           </div>
         </div>
       </section>
@@ -522,6 +560,7 @@
       </div>
       <div class="chat-status" id="chatStatus">Estado: listo para ayudarte.</div>
       <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-quick-actions" id="chatQuickActions" aria-label="Opciones rápidas"></div>
       <form class="chat-form" id="chatForm">
         <input class="chat-input" id="chatInput" type="text" name="message" placeholder="Escribe tu mensaje" autocomplete="off" required />
         <button class="chat-send" type="submit">Enviar</button>
@@ -563,6 +602,7 @@
     </button>
   </div>
 
+  <script src="config/env.js"></script>
   <script>
     console.log('[BOOT] INFINIUM landing loaded');
     if (!document.querySelector('.content') || !document.querySelector('h1')) {
@@ -570,12 +610,17 @@
     }
 
     // ---- Configuración base ----
+    const ENV = window.INFINIUM?.env || {};
     const API_BASE_URL =
+      ENV.API_BASE_URL ||
       window.VITE_API_URL ||
       window.NEXT_PUBLIC_API_URL ||
       window.NEXT_PUBLIC_BACKEND_BASE_URL ||
       window.BACKEND_BASE_URL ||
       '';
+    const WHATSAPP_PHONE = ENV.WHATSAPP_PHONE || '19565505115';
+    const BUY_URL = ENV.BUY_URL || 'https://tu-enlace-de-compra.com';
+    const DEFAULT_WHATSAPP_TEXT = 'Hola, quiero orientación sobre suplementos de INFINEUM.';
 
     const CHAT_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/chat` : '';
     const EVENT_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/event` : '';
@@ -591,6 +636,7 @@
     const chatClose = document.getElementById('chatClose');
     const chatStatus = document.getElementById('chatStatus');
     const chatSendButton = document.querySelector('.chat-send');
+    const chatQuickActions = document.getElementById('chatQuickActions');
 
     // ---- Tracking params ----
     const urlParams = new URLSearchParams(window.location.search);
@@ -611,11 +657,21 @@
     // ---- Meta data ----
     const buildMeta = () => ({
       site_id: urlParams.get('s') || '',
-      team_id: urlParams.get('t') || '',
-      campaign_id: urlParams.get('c') || '',
-      page: pagePath,
-      ts: new Date().toISOString()
+      campaign_id: urlParams.get('c') || ''
     });
+
+    const CONNECTION_ERROR_MESSAGE = 'Estoy teniendo problemas de conexión, pero puedo orientarte.';
+    const QUICK_ACTIONS = [
+      'Energía',
+      'Estrés / descanso',
+      'Digestión',
+      'Enfoque mental',
+      'Control de peso',
+      'Articulaciones',
+      'Bienestar general',
+      'Defensas',
+      'Piel / colágeno'
+    ];
 
     // ---- GA4 helpers ----
     const sendGAEventSafely = (eventName, eventParams = {}) => {
@@ -692,11 +748,39 @@
     };
 
     const openWhatsApp = (phone, text = '') => {
-      const phoneDigits = String(phone || '').replace(/\D/g, '');
+      const phoneDigits = String(phone || WHATSAPP_PHONE || '').replace(/\D/g, '');
       if (!phoneDigits) return;
-      const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(text)}`;
+      const message = text || DEFAULT_WHATSAPP_TEXT;
+      const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
       sendCtaClick('whatsapp', waUrl);
       window.open(waUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    const hydrateCtaButtons = () => {
+      document.querySelectorAll('[data-cta="buy"]').forEach((button) => {
+        button.dataset.url = BUY_URL;
+      });
+      document.querySelectorAll('[data-cta="whatsapp"]').forEach((button) => {
+        button.dataset.phone = WHATSAPP_PHONE;
+        button.dataset.text = DEFAULT_WHATSAPP_TEXT;
+      });
+      document.querySelectorAll('[data-cta="schedule"]').forEach((button) => {
+        button.dataset.phone = WHATSAPP_PHONE;
+        button.dataset.text = DEFAULT_WHATSAPP_TEXT;
+      });
+    };
+
+    const renderQuickActions = () => {
+      if (!chatQuickActions) return;
+      chatQuickActions.innerHTML = '';
+      QUICK_ACTIONS.forEach((label) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'quick-action';
+        button.dataset.quickAction = label;
+        button.textContent = label;
+        chatQuickActions.appendChild(button);
+      });
     };
 
     const appendMessage = (text, type = 'bot') => {
@@ -708,6 +792,38 @@
       chatMessages.appendChild(div);
 
       chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
+    };
+
+    const appendChatActions = () => {
+      if (!chatMessages) return;
+      const container = document.createElement('div');
+      container.className = 'chat-actions';
+
+      const buyButton = document.createElement('button');
+      buyButton.type = 'button';
+      buyButton.className = 'chat-action';
+      buyButton.dataset.action = 'open_url';
+      buyButton.dataset.cta = 'buy';
+      buyButton.textContent = 'Ver productos';
+
+      const whatsappButton = document.createElement('button');
+      whatsappButton.type = 'button';
+      whatsappButton.className = 'chat-action';
+      whatsappButton.dataset.action = 'whatsapp';
+      whatsappButton.dataset.cta = 'whatsapp';
+      whatsappButton.textContent = 'Hablar por WhatsApp';
+
+      container.appendChild(buyButton);
+      container.appendChild(whatsappButton);
+      chatMessages.appendChild(container);
+      hydrateCtaButtons();
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    const appendBotReply = (text) => {
+      appendMessage(text, 'bot');
+      appendChatActions();
     };
 
     const processUserMessage = async (message) => {
@@ -716,7 +832,7 @@
       setChatLoading(true);
 
       if (!CHAT_API_URL) {
-        appendMessage('El backend no está configurado. Intenta más tarde o ajusta la variable de entorno.', 'bot');
+        appendBotReply(CONNECTION_ERROR_MESSAGE);
         setChatStatus('error', 'Backend no conectado.');
         setChatLoading(false);
         return;
@@ -741,12 +857,12 @@
           : { reply: await response.text() };
 
         const reply = data?.reply || 'Recibí tu mensaje. Dame un segundo…';
-        appendMessage(reply, 'bot');
+        appendBotReply(reply);
         setChatStatus('ok', 'Listo para ayudarte.');
         trackEvent('chat_message_sent', { length: message.length });
       } catch (error) {
         console.error('[CHAT] error', error);
-        appendMessage('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
+        appendBotReply(CONNECTION_ERROR_MESSAGE);
         setChatStatus('error', 'Error al enviar.');
       } finally {
         setChatLoading(false);
@@ -767,6 +883,16 @@
         const message = (chatInput?.value || '').trim();
         if (!message) return;
 
+        await processUserMessage(message);
+      });
+    }
+
+    if (chatQuickActions) {
+      chatQuickActions.addEventListener('click', async (event) => {
+        const target = event.target.closest('[data-quick-action]');
+        if (!target) return;
+        const message = target.dataset.quickAction;
+        if (!message) return;
         await processUserMessage(message);
       });
     }
@@ -829,7 +955,9 @@
     }
 
     // ---- Init ----
-    appendMessage('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?', 'bot');
+    hydrateCtaButtons();
+    renderQuickActions();
+    appendBotReply('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?');
     setChatStatus('ok', API_BASE_URL ? 'Listo para ayudarte.' : 'Backend no conectado.');
   </script>
 </body>
