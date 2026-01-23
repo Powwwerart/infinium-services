@@ -17,7 +17,7 @@
     rel="icon"
     href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%2300e6c7"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="%230b0b0f" font-family="system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif">VP</text></svg>'
   />
-  <title>INFINIUM × Vital Health Global</title>
+  <title>INFINIUM</title>
 
   <style>
     body {
@@ -179,10 +179,10 @@
     .cta-primary {
       background: #21d4c2;
       color: #0b0f14;
-      box-shadow: none;
       border-color: rgba(33, 212, 194, 0.55);
       font-size: 1.05rem;
     }
+
     .cta-primary:hover {
       transform: translateY(-1px);
       background: #1bc7b6;
@@ -193,12 +193,12 @@
       color: rgba(255, 255, 255, 0.92);
       border-color: rgba(33, 212, 194, 0.4);
     }
+
     .cta-secondary:hover {
       transform: translateY(-1px);
       background: rgba(33, 212, 194, 0.12);
     }
 
-    .focus-section,
     .next-steps {
       width: min(900px, 100%);
       display: flex;
@@ -216,44 +216,8 @@
     .section-subtitle {
       margin: 0 auto;
       max-width: 640px;
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      color: rgba(255, 255, 255, 0.72);
-
       color: rgba(226, 232, 240, 0.8);
-main
       line-height: 1.5;
-    }
-
-    .pill-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .pill-button {
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(15, 20, 28, 0.55);
-      color: rgba(255, 255, 255, 0.9);
-
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(15, 23, 42, 0.55);
-      color: #e2e8f0;
-main
-      padding: 12px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
-      text-align: center;
-      box-shadow: none;
-    }
-
-    .pill-button:hover {
-      transform: translateY(-1px);
-      background: rgba(33, 212, 194, 0.12);
-      box-shadow: none;
     }
 
     .step-grid {
@@ -263,24 +227,15 @@ main
     }
 
     .step-card {
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      background: rgba(15, 20, 28, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-
       background: rgba(15, 23, 42, 0.55);
       border: 1px solid rgba(148, 163, 184, 0.2);
-main
       border-radius: 18px;
       padding: 18px;
       text-align: left;
       display: flex;
       flex-direction: column;
       gap: 12px;
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      box-shadow: none;
-
       box-shadow: 0 16px 28px rgba(2, 6, 23, 0.35);
-main
     }
 
     .step-card h3 {
@@ -290,11 +245,7 @@ main
 
     .step-card p {
       margin: 0;
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      color: rgba(255, 255, 255, 0.7);
-
       color: rgba(226, 232, 240, 0.72);
-main
       font-size: 0.95rem;
       line-height: 1.45;
     }
@@ -310,15 +261,9 @@ main
       gap: 8px;
       padding: 10px 16px;
       border-radius: 999px;
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      border: 1px solid rgba(33, 212, 194, 0.4);
-      background: rgba(33, 212, 194, 0.12);
-      color: rgba(255, 255, 255, 0.9);
-
       border: 1px solid rgba(34, 197, 214, 0.35);
       background: rgba(34, 197, 214, 0.12);
       color: #e2e8f0;
-main
       font-weight: 700;
       cursor: pointer;
       transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
@@ -327,13 +272,8 @@ main
 
     .step-button:hover {
       transform: translateY(-1px);
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-      background: rgba(33, 212, 194, 0.2);
-      box-shadow: none;
-
       background: rgba(34, 197, 214, 0.2);
       box-shadow: 0 12px 24px rgba(2, 6, 23, 0.35);
- main
     }
 
     .reveal {
@@ -350,11 +290,11 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
     /* Chat assistant */
     .chat-widget {
       position: fixed;
-      left: 18px;
+      right: 18px;
       bottom: 24px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-end;
       gap: 10px;
       z-index: 999;
     }
@@ -363,7 +303,7 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 18px;
+      padding: 12px 18px;
       border-radius: 999px;
       border: 1px solid rgba(34, 211, 238, 0.55);
       background: linear-gradient(135deg, rgba(16, 185, 194, 0.32), rgba(139, 92, 246, 0.28));
@@ -372,8 +312,8 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
       box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18), 0 0 18px rgba(16, 185, 194, 0.24);
       backdrop-filter: blur(10px);
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-      font-size: 17px;
-      min-width: 240px;
+      font-size: 16px;
+      min-width: 220px;
       justify-content: flex-start;
       text-align: left;
       overflow: hidden;
@@ -382,7 +322,7 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
     }
 
     .chat-toggle strong { display: block; font-size: 1rem; letter-spacing: 0.3px; }
-    .chat-toggle span { display: block; font-size: 0.86rem; color: #0f172a; }
+    .chat-toggle span { display: block; font-size: 0.84rem; color: #0f172a; }
 
     .chat-modal {
       width: min(380px, 92vw);
@@ -454,23 +394,6 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
     }
 
-    .chat-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    .chat-action-button {
-      border: 1px solid rgba(34, 197, 214, 0.25);
-      background: rgba(34, 197, 214, 0.12);
-      color: #e5f8ff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-    }
-    .chat-action-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-      background: rgba(34, 197, 214, 0.18);
-    }
-
     .chat-form {
       display: flex;
       gap: 8px;
@@ -500,33 +423,12 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
+
     .chat-send:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(0, 0, 0, 0.3); }
 
     .chat-footer-note { padding: 0 12px 10px; font-size: 0.85rem; color: rgba(226,232,240,0.7); }
 
-    .assistant-figure { width: 54px; height: 54px; flex-shrink: 0; animation: waveMove 3.8s ease-in-out infinite; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 0.14);
-      color: #0b3a2a;
-      font-size: 0.8rem;
-      font-weight: 800;
-      border: 1px solid rgba(34, 197, 94, 0.32);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    }
-    .status-pill .spark {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #a7f3d0 0%, #22c55e 40%, #15803d 100%);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
-    }
-
+    .assistant-figure { width: 42px; height: 42px; flex-shrink: 0; animation: waveMove 3.8s ease-in-out infinite; }
 
     @keyframes pulseGlow {
       0% { box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 12px rgba(16,185,194,0.2); }
@@ -536,15 +438,6 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
     @keyframes ambientShift {
       0%,100% { opacity: 0.9; transform: translateY(0); }
       50% { opacity: 0.6; transform: translateY(-8px); }
-    }
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-    @keyframes heroIn {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-
-    @keyframes floatOrb {
-      0%,100% { transform: translate3d(0, 0, 0); opacity: 0.8; }
-      50% { transform: translate3d(10px, -12px, 0); opacity: 1; }
     }
     @keyframes floatOrbOne {
       0%,100% { transform: translate3d(0, 0, 0); opacity: 0.6; }
@@ -558,11 +451,6 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes pulseRing {
-      0%,100% { box-shadow: 0 12px 24px rgba(34,211,238,0.32); }
-      50% { box-shadow: 0 18px 36px rgba(34,211,238,0.45); }
- main
-    }
     @keyframes waveMove {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
@@ -575,7 +463,6 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
     }
     @media (max-width: 480px) {
       .chat-toggle { min-width: 0; padding: 12px; }
-      .pill-grid { gap: 10px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -591,84 +478,35 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
     <div class="content">
       <div class="hero">
         <div>
-          <h1 class="hero-entry delay-1">Encuentra la opción que mejor encaje con tu rutina.</h1>
-          <p class="subtitle hero-entry delay-2">Orientación clara en suplementos y bienestar, sin diagnósticos.</p>
+          <h1 class="hero-entry delay-1">Encuentra una opción clara para tu rutina diaria.</h1>
+          <p class="subtitle hero-entry delay-2">Guía rápida en bienestar, sin diagnósticos ni lenguaje clínico.</p>
 
           <div class="cta-row hero-entry delay-3" aria-label="Acciones principales">
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-            <button class="cta-primary" type="button" data-action="chat_send" data-message="Quiero orientación rápida">Orientación rápida (IA)</button>
+            <button class="cta-primary" type="button" data-action="open_url" data-url="https://tu-enlace-de-compra.com">Comprar</button>
             <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
-            <button class="cta-secondary" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero ayuda para elegir una opción.">Asesor por WhatsApp</button>
-
-            <button class="cta-primary" type="button" data-action="chat_prefill" data-message="Quiero orientación rápida">Orientación rápida</button>
-            <button class="cta-secondary" type="button" data-action="scroll_to" data-target="#categorias">Ver productos</button>
-            <button class="cta-secondary" type="button" data-action="open_url" data-url="/scan.html">Escaneo (agendar)</button>
- main
+            <button class="cta-secondary" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero orientación sobre opciones disponibles.">Hablar por WhatsApp</button>
           </div>
         </div>
       </div>
 
-      <section id="categorias" class="focus-section reveal" aria-label="Elige tu enfoque">
-        <h2 class="section-title">Elige tu enfoque</h2>
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-        <p class="section-subtitle">Selecciona una categoría para recibir una orientación breve en el chat.</p>
-        <div class="pill-grid">
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Energía">Energía</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Estrés">Estrés</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Digestión">Digestión</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Enfoque">Enfoque</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Peso">Peso</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Articulaciones">Articulaciones</button>
-          <button class="pill-button" type="button" data-action="chat_send" data-message="Quiero apoyo en Bienestar general">Bienestar general</button>
-
-        <p class="section-subtitle">Selecciona una categoría para recibir una recomendación rápida en el chat.</p>
-        <div class="pill-grid">
-          <button class="pill-button" type="button" data-action="chat_category" data-category="energia" data-label="energía">Energía</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="estres" data-label="estrés">Estrés</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="digestion" data-label="digestión">Digestión</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="enfoque" data-label="enfoque">Enfoque</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="peso" data-label="peso">Peso</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="articulaciones" data-label="articulaciones">Articulaciones</button>
-          <button class="pill-button" type="button" data-action="chat_category" data-category="bienestar-general" data-label="bienestar general">Bienestar general</button>
- main
-          <button class="pill-button" type="button" data-action="open_url" data-url="/scan.html">Escaneo</button>
-        </div>
-      </section>
-
       <section class="next-steps reveal" aria-label="Próximo paso">
-        <h2 class="section-title">Próximo paso</h2>
-        <p class="section-subtitle">Elige el camino que mejor se ajuste a tu ritmo. Sin promesas médicas, solo guía clara.</p>
+        <h2 class="section-title">Tu siguiente paso</h2>
+        <p class="section-subtitle">Elige el camino que mejor se adapte a tu ritmo. Siempre con claridad y sin promesas médicas.</p>
         <div class="step-grid">
           <div class="step-card">
-codex/implement-ui/ux-updates-in-frontend-lcl51i
-            <h3>Compra ya</h3>
-            <p>Explora el catálogo y elige lo que mejor se ajuste a tu rutina.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="/shop">Ir a la tienda</button>
-          </div>
-          <div class="step-card">
-            <h3>Agenda escaneo</h3>
-            <p>Reserva una sesión de orientación para conocer tu punto de partida.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
-          </div>
-          <div class="step-card">
-            <h3>Asesor WhatsApp</h3>
-            <p>Atención directa para resolver dudas de forma rápida y humana.</p>
-            <button class="step-button" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero ayuda para elegir una opción.">Escribir ahora</button>
-
             <h3>Comprar directo</h3>
-            <p>Recibe una guía breve en el chat y decide el siguiente paso cuando estés listo.</p>
-            <button class="step-button" type="button" data-action="chat_prefill" data-message="Quiero comprar directo">Ir al chat</button>
-          </div>
-          <div class="step-card">
-            <h3>Hablar por WhatsApp</h3>
-            <p>Conecta con un asesor para resolver dudas de forma rápida y humana.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="https://wa.me/19565505115?text=Hola%2C%20quiero%20orientaci%C3%B3n%20sobre%20suplementos.">Abrir WhatsApp</button>
+            <p>Ir al enlace de compra y cerrar tu pedido cuando estés listo.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="https://tu-enlace-de-compra.com">Ir a comprar</button>
           </div>
           <div class="step-card">
             <h3>Agendar escaneo</h3>
-            <p>Agenda una sesión de orientación para conocer tu punto de partida.</p>
-            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar ahora</button>
-main
+            <p>Reserva una sesión de orientación para definir tu punto de partida.</p>
+            <button class="step-button" type="button" data-action="open_url" data-url="/scan.html">Agendar escaneo</button>
+          </div>
+          <div class="step-card">
+            <h3>WhatsApp directo</h3>
+            <p>Conecta con un asesor y resuelve dudas rápidamente.</p>
+            <button class="step-button" type="button" data-action="whatsapp" data-phone="19565505115" data-text="Hola, vengo de INFINIUM. Quiero asesoría rápida.">Abrir WhatsApp</button>
           </div>
         </div>
       </section>
@@ -682,7 +520,7 @@ main
         <span id="chatTitle">Asistente INFINIUM</span>
         <button class="chat-close" type="button" id="chatClose" aria-label="Cerrar chat">✕</button>
       </div>
-      <div class="chat-status" id="chatStatus">Estado: verificando conexión…</div>
+      <div class="chat-status" id="chatStatus">Estado: listo para ayudarte.</div>
       <div class="chat-messages" id="chatMessages"></div>
       <form class="chat-form" id="chatForm">
         <input class="chat-input" id="chatInput" type="text" name="message" placeholder="Escribe tu mensaje" autocomplete="off" required />
@@ -719,9 +557,8 @@ main
         <circle cx="60" cy="16" r="4" fill="#22d3ee" stroke="#0f172a" stroke-width="3"/>
       </svg>
       <div>
-        <strong>Atención inmediata</strong>
-        <span>Respuesta humana + IA</span>
-        <span class="status-pill"><span class="spark" aria-hidden="true"></span> EN LÍNEA</span>
+        <strong>Asistente IA</strong>
+        <span>Resuelve dudas al instante</span>
       </div>
     </button>
   </div>
@@ -733,18 +570,19 @@ main
     }
 
     // ---- Configuración base ----
-    const BACKEND_BASE_URL =
+    const API_BASE_URL =
+      window.VITE_API_URL ||
+      window.NEXT_PUBLIC_API_URL ||
       window.NEXT_PUBLIC_BACKEND_BASE_URL ||
       window.BACKEND_BASE_URL ||
-      'https://infinium-chat-api.vercel.app';
+      '';
 
-    const CHAT_API_URL = `${BACKEND_BASE_URL}/api/chat`;
-    const EVENT_API_URL = `${BACKEND_BASE_URL}/api/event`;
+    const CHAT_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/chat` : '';
+    const EVENT_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/event` : '';
     const pagePath = `${window.location.pathname}${window.location.search}`;
     const SESSION_STORAGE_KEY = 'infinium_session_id';
 
     // ---- Referencias DOM ----
-    const compraBtn = document.getElementById('btn-compra');
     const chatToggle = document.getElementById('chatToggle');
     const chatModal = document.getElementById('chatModal');
     const chatMessages = document.getElementById('chatMessages');
@@ -754,36 +592,8 @@ main
     const chatStatus = document.getElementById('chatStatus');
     const chatSendButton = document.querySelector('.chat-send');
 
- codex/implement-ui/ux-updates-in-frontend-lcl51i
-
-    const actionButtons = Array.from(document.querySelectorAll('[data-action]'));
- main
-    const chatOpenButtons = Array.from(document.querySelectorAll('[data-chat-open="true"]'));
-    const moodCards = Array.from(document.querySelectorAll('.mood-card')); // (si no existen, queda [])
-    const moodChatButtons = Array.from(document.querySelectorAll('[data-mood-chat-open="true"]')); // opcional
-
-    // ---- UTM tracking ----
-    const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    // ---- Tracking params ----
     const urlParams = new URLSearchParams(window.location.search);
-
-    const persistUtmFromUrl = () => {
-      UTM_KEYS.forEach((key) => {
-        const value = urlParams.get(key);
-        if (value) sessionStorage.setItem(key, value);
-      });
-    };
-
-    const readUtmFromSession = () => {
-      const data = {};
-      UTM_KEYS.forEach((key) => {
-        const stored = sessionStorage.getItem(key);
-        if (stored) data[key] = stored;
-      });
-      return data;
-    };
-
-    persistUtmFromUrl();
-    const utmData = readUtmFromSession();
 
     // ---- Session ----
     const getSessionId = () => {
@@ -804,19 +614,19 @@ main
       team_id: urlParams.get('t') || '',
       campaign_id: urlParams.get('c') || '',
       page: pagePath,
-      utm: utmData || {},
       ts: new Date().toISOString()
     });
 
     // ---- GA4 helpers ----
     const sendGAEventSafely = (eventName, eventParams = {}) => {
       if (typeof gtag === 'function') {
-        gtag('event', eventName, { ...eventParams, page: pagePath, ...utmData });
+        gtag('event', eventName, { ...eventParams, page: pagePath });
       }
     };
 
     // ---- Event pipeline ----
     const postEvent = (eventName, data = {}) => {
+      if (!EVENT_API_URL) return;
       const payload = {
         event: eventName,
         sessionId,
@@ -836,44 +646,20 @@ main
       postEvent(eventName, extra);
     };
 
-    // ---- Backend health ----
-    const setBackendStatus = (isOk) => {
+    const setChatStatus = (state, message) => {
       if (!chatStatus) return;
-      const healthy = Boolean(isOk);
-      window.__backendOk = healthy;
-      chatStatus.textContent = healthy ? 'Asistente en línea ✅' : 'Reconectando…';
-      chatStatus.classList.toggle('ok', healthy);
-      chatStatus.classList.toggle('error', !healthy);
+      chatStatus.textContent = message;
+      chatStatus.classList.toggle('ok', state === 'ok');
+      chatStatus.classList.toggle('error', state === 'error');
     };
-
-    const checkBackend = async () => {
-      try {
-        const response = await fetch(`${BACKEND_BASE_URL}/api/ping`, { method: 'GET' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        const isOk = data?.ok === true;
-        setBackendStatus(isOk);
-        return isOk;
-      } catch (error) {
-        console.error('[PING] fail', error);
-        setBackendStatus(false);
-        return false;
-      }
-    };
-
-    // ---- CTA tracking ----
-    const sendCtaClick = (ctaType, url) => {
-      trackEvent('cta_click', { cta: ctaType, url });
-    };
-
-    if (compraBtn) {
-      compraBtn.addEventListener('click', () => sendCtaClick('buy', compraBtn.href || ''));
-    }
 
     // ---- Chat UI ----
     const setChatLoading = (isLoading) => {
       if (chatSendButton) chatSendButton.disabled = isLoading;
       if (chatInput) chatInput.disabled = isLoading;
+      if (isLoading) {
+        setChatStatus('sending', 'Enviando…');
+      }
     };
 
     const handleChatToggle = () => {
@@ -881,7 +667,7 @@ main
       const isOpen = chatModal.classList.toggle('open');
       chatToggle.setAttribute('aria-expanded', String(isOpen));
       if (isOpen) {
-        checkBackend();
+        setChatStatus('ok', API_BASE_URL ? 'Listo para ayudarte.' : 'Backend no conectado.');
         if (chatInput) chatInput.focus();
       }
     };
@@ -905,7 +691,6 @@ main
       }
     };
 
- codex/implement-ui/ux-updates-in-frontend-lcl51i
     const openWhatsApp = (phone, text = '') => {
       const phoneDigits = String(phone || '').replace(/\D/g, '');
       if (!phoneDigits) return;
@@ -914,9 +699,7 @@ main
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     };
 
-
- main
-    const appendMessage = (text, type = 'bot', actions = []) => {
+    const appendMessage = (text, type = 'bot') => {
       if (!chatMessages) return;
 
       const div = document.createElement('div');
@@ -924,118 +707,27 @@ main
       div.textContent = text;
       chatMessages.appendChild(div);
 
-      if (Array.isArray(actions) && actions.length > 0) {
-        const actionsContainer = document.createElement('div');
-        actionsContainer.className = 'chat-actions';
-
-        actions.forEach((action) => {
-          const actionBtn = document.createElement('button');
-          actionBtn.type = 'button';
-          actionBtn.className = 'chat-action-button';
-          actionBtn.textContent = action.label || 'Acción';
-
-          actionBtn.addEventListener('click', () => {
-            if (action.type === 'open_url' && action.url) {
-              sendCtaClick('open_url', action.url);
-              openUrl(action.url);
-              return;
-            }
-            if (action.type === 'whatsapp' && action.phone) {
-              const phoneDigits = String(action.phone || '').replace(/\D/g, '');
-              const waUrl = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(action.text || '')}`;
-              sendCtaClick('whatsapp', waUrl);
-              window.open(waUrl, '_blank', 'noopener,noreferrer');
-              return;
-            }
-            if (action.type === 'send_message' && action.message) {
-              openChatAndFocus();
-              processUserMessage(action.message, { quick: true });
-              return;
-            }
-            if (action.url) {
-              sendCtaClick('action', action.url);
-              openUrl(action.url);
-            }
-          });
-
-          actionsContainer.appendChild(actionBtn);
-        });
-
-        chatMessages.appendChild(actionsContainer);
-      }
-
       chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
-    const prefillChatInput = (message) => {
-      if (!message) return;
-      openChatAndFocus();
-      if (chatInput) {
-        chatInput.value = message;
-        chatInput.focus();
-      }
-    };
-
-    const buildLockedActions = (category) => {
-      if (!category) return [];
-      if (category === 'escaneo') {
-        return [
-          { label: 'Agendar escaneo', type: 'open_url', url: '/scan.html' },
-          {
-            label: 'Asesor WhatsApp',
-            type: 'whatsapp',
-            phone: '19565505115',
-            text: 'Hola, vengo de INFINIUM. Quiero agendar un escaneo.'
-          },
-          { label: 'Volver al inicio', type: 'open_url', url: '/' }
-        ];
-      }
-      return [
-        { label: 'Comprar ahora', type: 'send_message', message: 'Comprar ahora' },
-        {
-          label: 'WhatsApp',
-          type: 'whatsapp',
-          phone: '19565505115',
-          text: 'Hola, vengo de INFINIUM...'
-        },
-        { label: 'Escaneo (más personalizado)', type: 'send_message', message: 'Quiero algo más personalizado (escaneo)' }
-      ];
-    };
-
-    const renderBotMessage = (text, actions = []) => {
-      appendMessage(text, 'bot', actions);
-    };
-
-    // Verificación manual del render (si se necesita):
-    // renderBotMessage('PRUEBA BOT OK');
-
-    const processUserMessage = async (message, { quick = false } = {}) => {
+    const processUserMessage = async (message) => {
       appendMessage(message, 'user');
       if (chatInput) chatInput.value = '';
       setChatLoading(true);
 
-      const userText = message;
-      console.log('MENSAJE USUARIO:', userText);
-
-      const detectCategoryFn = window.INFINIUM?.detectCategory;
-      const handleUserMessageFn = window.INFINIUM?.handleUserMessage;
-
-      if (typeof detectCategoryFn !== 'function' || typeof handleUserMessageFn !== 'function') {
-        console.warn('[CHAT] commandChain no disponible en el scope global.');
-      }
-
-      const lockedCategory = typeof detectCategoryFn === 'function' ? detectCategoryFn(userText) : null;
-      const lockedReply = typeof handleUserMessageFn === 'function' ? handleUserMessageFn(userText) : null;
-      console.log('LOCKED RESPONSE:', lockedReply);
-
-      if (typeof lockedReply === 'string' && lockedCategory && lockedCategory !== 'menu') {
-        renderBotMessage(lockedReply, buildLockedActions(lockedCategory));
+      if (!CHAT_API_URL) {
+        appendMessage('El backend no está configurado. Intenta más tarde o ajusta la variable de entorno.', 'bot');
+        setChatStatus('error', 'Backend no conectado.');
         setChatLoading(false);
         return;
       }
 
       try {
-        const payload = { message, sessionId, meta: buildMeta(), quick };
+        const payload = {
+          message,
+          sessionId,
+          meta: buildMeta()
+        };
 
         const response = await fetch(CHAT_API_URL, {
           method: 'POST',
@@ -1043,26 +735,28 @@ main
           body: JSON.stringify(payload)
         });
 
-        // Si backend regresa HTML por error, esto evita crash silencioso
         const contentType = response.headers.get('content-type') || '';
         const data = contentType.includes('application/json')
           ? await response.json()
           : { reply: await response.text() };
 
         const reply = data?.reply || 'Recibí tu mensaje. Dame un segundo…';
-        appendMessage(reply, 'bot', data?.actions || []);
+        appendMessage(reply, 'bot');
+        setChatStatus('ok', 'Listo para ayudarte.');
         trackEvent('chat_message_sent', { length: message.length });
       } catch (error) {
         console.error('[CHAT] error', error);
         appendMessage('Hubo un problema al responder. Intenta nuevamente en unos segundos.', 'bot');
+        setChatStatus('error', 'Error al enviar.');
       } finally {
         setChatLoading(false);
       }
     };
 
-    // API pública para botones
-    window.INFINIUM = window.INFINIUM || {};
-    window.INFINIUM.openChat = openChatAndFocus;
+    // ---- CTA tracking ----
+    const sendCtaClick = (ctaType, url) => {
+      trackEvent('cta_click', { cta: ctaType, url });
+    };
 
     if (chatToggle) chatToggle.addEventListener('click', handleChatToggle);
     if (chatClose) chatClose.addEventListener('click', handleChatToggle);
@@ -1073,24 +767,14 @@ main
         const message = (chatInput?.value || '').trim();
         if (!message) return;
 
-        await processUserMessage(message, { quick: false });
+        await processUserMessage(message);
       });
     }
 
-codex/implement-ui/ux-updates-in-frontend-lcl51i
     document.addEventListener('click', (event) => {
       const target = event.target.closest('[data-action]');
       if (!target) return;
       const action = target.dataset.action;
-
-      if (action === 'chat_send') {
-        const message = target.dataset.message || '';
-        if (!message) return;
-        openChatAndFocus();
-        processUserMessage(message, { quick: true });
-        trackEvent('chat_send_click', { message });
-        return;
-      }
 
       if (action === 'open_url') {
         const url = target.dataset.url || '';
@@ -1104,68 +788,6 @@ codex/implement-ui/ux-updates-in-frontend-lcl51i
         openWhatsApp(target.dataset.phone, target.dataset.text || '');
         trackEvent('whatsapp_click', { phone: target.dataset.phone || '' });
       }
-
-    actionButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const action = button.dataset.action;
-        if (action === 'chat_prefill') {
-          prefillChatInput(button.dataset.message || '');
-          trackEvent('chat_prefill_click', { message: button.dataset.message || '' });
-          return;
-        }
-        if (action === 'chat_category') {
-          const label = button.dataset.label || (button.textContent || '').trim().toLowerCase();
-          const message = `Quiero ${label}`;
-          openChatAndFocus();
-          processUserMessage(message, { quick: true });
-          trackEvent('chat_category_click', { category: button.dataset.category || label });
-          return;
-        }
-        if (action === 'scroll_to') {
-          const target = document.querySelector(button.dataset.target || '');
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            trackEvent('scroll_to_section', { target: button.dataset.target });
-          }
-          return;
-        }
-        if (action === 'open_url') {
-          openUrl(button.dataset.url || '');
-          trackEvent('open_url_click', { url: button.dataset.url || '' });
-        }
-      });
-main
-    });
-
-    chatOpenButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        openChatAndFocus();
-        trackEvent('chat_open_click', { label: (button.textContent || '').trim() });
-      });
-    });
-
-    // Mood cards (si existen en el HTML)
-    moodCards.forEach((card) => {
-      const handleMoodSelect = () => {
-        const message = card.dataset.prefill || '';
-        prefillChatInput(message);
-        trackEvent('mood_card_click', { message });
-      };
-
-      card.addEventListener('click', handleMoodSelect);
-      card.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          handleMoodSelect();
-        }
-      });
-    });
-
-    moodChatButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        openChatAndFocus();
-        trackEvent('mood_quick_action_click', { label: (button.textContent || '').trim() });
-      });
     });
 
     // ---- Scroll reveal ----
@@ -1183,8 +805,6 @@ main
     } else {
       revealItems.forEach((item) => item.classList.add('is-visible'));
     }
-
- codex/implement-ui/ux-updates-in-frontend-lcl51i
 
     // ---- Parallax suave ----
     const supportsFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
@@ -1208,10 +828,9 @@ main
       }, { passive: true });
     }
 
-main
     // ---- Init ----
     appendMessage('Hola, soy el asistente de INFINIUM. ¿En qué puedo ayudarte hoy?', 'bot');
-    checkBackend();
+    setChatStatus('ok', API_BASE_URL ? 'Listo para ayudarte.' : 'Backend no conectado.');
   </script>
 </body>
 </html>
