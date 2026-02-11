@@ -602,6 +602,11 @@
     </button>
   </div>
 
+  <script>
+    window.INFINIUM_API_BASE_URL = window.INFINIUM_API_BASE_URL || window.location.origin;
+    window.INFINIUM_WHATSAPP_PHONE = window.INFINIUM_WHATSAPP_PHONE || '19565505115';
+    window.INFINIUM_BUY_URL = window.INFINIUM_BUY_URL || 'https://vitalhealthglobal.com/collections/all?refID=145748';
+  </script>
   <script src="config/env.js"></script>
   <script>
     console.log('[BOOT] INFINIUM landing loaded');
@@ -619,7 +624,7 @@
       window.BACKEND_BASE_URL ||
       '';
     const WHATSAPP_PHONE = ENV.WHATSAPP_PHONE || '19565505115';
-    const BUY_URL = ENV.BUY_URL || 'https://tu-enlace-de-compra.com';
+    const BUY_URL = ENV.BUY_URL || 'https://vitalhealthglobal.com/collections/all?refID=145748';
     const DEFAULT_WHATSAPP_TEXT = 'Hola, quiero orientación sobre suplementos de INFINEUM.';
 
     const CHAT_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/chat` : '';
